@@ -1,0 +1,3801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>常用网址导航</title>
+<link rel="icon" href='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%220%22%20y1=%221%22%20x2=%221%22%20y2=%220%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%237FA30C%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%23C6E457%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath%20d=%22M4%2060C4%2018%2018%204%2060%204C60%2046%2046%2060%204%2060Z%22%20fill=%22url(%23g)%22%20stroke=%22%236C8E08%22%20stroke-width=%222%22/%3E%3C/svg%3E' type="image/svg+xml">
+
+
+
+<style>
+:root{
+  --red:#D52018;      /* LOGO 红 */
+  --red-d:#A9110E;    /* 深红（渐变终点/标题文字） */
+  --red-l:#EF4A3E;    /* 亮红（渐变起点） */
+  --tint:#FCEDEB;     /* 链接悬停的浅红底 */
+  --green:#9FC90F;    /* LOGO 叶绿 */
+  --green-d:#7FA30C;  /* 深叶绿 */
+  --green-l:#C6E457;  /* 亮叶绿 */
+  --paper:#f7f4ee;
+  --ink:#33302a;
+  --line:#e7e2d5;
+  --row:#f0ede2;
+  --pad:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{
+  margin:0;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Noto Sans SC","Segoe UI",Arial,sans-serif;
+  font-size:15px;
+  color:var(--ink);
+}
+
+::selection{background:var(--red);color:#fff}
+
+/* ============ 品牌抬头：官方 SVG LOGO + 行名 ============ */
+header{width:100%}
+.topbar{background:#fff;padding:16px var(--pad) 15px}
+.brand{
+  display:flex;align-items:center;
+}
+.brand svg{
+  /* 控制 SVG 显示尺寸 */
+  width:52px;flex:none;display:block;
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.2}
+.brand-zh{
+  font-weight:700;
+}
+.brand-en{
+  margin-top:4px;font-weight:500;
+}
+
+/* ============ 标题横幅：红色渐变 + 绿色底边 ============ */
+.hero{
+  position:relative;text-align:center;
+  padding:36px 20px 40px;
+  border-bottom:4px solid var(--green);
+  background-image:
+    repeating-radial-gradient(circle at 12% 140%,rgba(255,255,255,.05) 0 1px,transparent 1px 26px),
+    repeating-radial-gradient(circle at 88% -40%,rgba(255,255,255,.04) 0 1px,transparent 1px 26px),
+    linear-gradient(120deg,var(--red) 0%,var(--red-d) 75%);
+}
+.hero h1{
+  margin:0;position:relative;z-index:1;font-weight:700;color:#fdf8f2;
+}
+.hero::after{
+  /* 右侧大水印叶，呼应 LOGO */
+  content:"";position:absolute;top:50%;
+}
+
+/* ============ 分栏切换 ============ */
+.tabs{
+  display:flex;gap:4px;
+  margin:24px var(--pad) 0;
+  border-bottom:1px solid var(--line);
+}
+.tabs button{
+  position:relative;appearance:none;font:inherit;font-weight:600;border-bottom:0;cursor:pointer;
+}
+
+.tabs button[aria-selected="true"]{
+  border-bottom-color:#fff;
+}
+.tabs button[aria-selected="true"]::after{ /* 与卡片顶线同一条红渐变 */
+  content:"";position:absolute;left:0;right:0;top:-1px;height:3px;
+  background:linear-gradient(90deg,var(--red-l),var(--red) 35%,var(--red-d));
+  border-radius:6px 6px 0 0;
+}
+.tabs button:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+
+/* 数据备份按钮：页签栏下方右对齐，打印不输出 */
+.data-tools{display:flex;justify-content:center;align-items:center;gap:8px;margin:12px 0 0}
+.data-btn{
+  appearance:none;font:inherit;font-size:12px;letter-spacing:.12em;
+  color:rgba(255,248,240,.9);background:transparent;
+  border:1px solid rgba(255,255,255,.3);border-radius:999px;
+  padding:0 16px;min-height:28px;cursor:pointer;
+  transition:color .16s ease,border-color .16s ease,background-color .16s ease;
+}
+.data-btn:hover{color:#fff;border-color:rgba(255,255,255,.65);background:rgba(255,255,255,.1)}
+.data-btn:active{background:rgba(255,255,255,.18)}
+.data-btn:focus-visible{outline:2px solid rgba(255,255,255,.85);outline-offset:2px}
+/* 页签可拖动排序 */
+.tabs button{cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+.tabs button.dragging{
+  cursor:grabbing;opacity:.9;background:#fff;
+  box-shadow:0 6px 16px rgba(213,32,24,.2);z-index:3;
+}
+.tabs button.dragging::after{opacity:.2}
+
+/* ============ 卡片栅格 ============ */
+.view{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(310px,100%),1fr));
+  gap:22px;
+  align-content:start;
+  margin-top:22px;
+  padding:0 var(--pad);
+}
+
+/* ============ 卡片 ============ */
+.card{
+  position:relative;display:flex;flex-direction:column;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+  text-align:left;
+  box-shadow:0 1px 2px rgba(90,25,12,.05);
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.card::before{ /* 红色渐变顶线 */
+  content:"";flex:none;height:3px;
+  background:linear-gradient(90deg,var(--red-l),var(--red) 35%,var(--red-d));
+}
+
+.card-content{flex:1;display:flex;flex-direction:column;padding:18px 0 8px}
+.card-title{
+  margin:0;padding:0 22px 14px;font-weight:700;color:var(--red-d);display:flex;align-items:center;gap:10px;
+}
+.card-title::before{
+  /* 标题前的小绿叶 */
+  content:"";flex:none;border-radius:100% 0 100% 0;background:linear-gradient(45deg,var(--green-d),var(--green-l));
+}
+.card-links{flex:1;display:flex;flex-direction:column}
+
+/* ============ 网址导航区块拖动排序 ============ */
+.nav-sortable .card-title{cursor:grab}
+.nav-sortable .card-title:active{cursor:grabbing}
+.card-grip{
+  margin-left:auto;padding-left:8px;font-size:13px;line-height:1;
+  color:#c9c1b4;letter-spacing:1px;font-style:normal;user-select:none;
+  transition:color .16s ease;
+}
+.nav-sortable .card-title:hover .card-grip{color:var(--red)}
+.nav-sortable.nav-dragging{
+  opacity:.94;box-shadow:0 12px 28px rgba(120,25,12,.20);
+  border-color:rgba(213,32,24,.45);z-index:20;
+}
+.nav-sortable.nav-dragging .card-title{cursor:grabbing}
+
+/* ============ 链接行 ============ */
+.card-link{
+  flex:1 1 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:44px;padding:8px 22px;position:relative;
+  border-top:1px solid var(--row);
+  color:var(--ink);text-decoration:none;
+  font-size:14px;letter-spacing:.02em;
+  transition:background-color .18s ease,color .18s ease,padding .18s ease;
+}
+.card-link::before{
+  /* 悬停时的左侧红条 */
+  content:"";position:absolute;left:0;top:0;bottom:0;background:var(--red);transform:scaleY(0);transform-origin:top;transition:transform .2s ease;
+}
+.card-link::after{ /* 悬停时的右端绿色箭头 */
+  content:"";flex:none;width:6px;height:6px;margin-left:12px;
+  border-top:1.5px solid var(--green-d);border-right:1.5px solid var(--green-d);
+  transform:rotate(45deg) translateX(-4px);opacity:0;
+  transition:opacity .18s ease,transform .18s ease;
+}
+.card-link:hover{
+  background:var(--tint);color:var(--red-d);
+}
+.card-link:hover::before{transform:scaleY(1)}
+.card-link:hover::after{opacity:1;transform:rotate(45deg) translateX(0)}
+.card-link:focus-visible{outline:2px solid var(--red);outline-offset:-2px;background:var(--tint)}
+
+/* ============ 常用网址（按点击次数实时排序） ============ */
+.hot-card{grid-column:1/-1}
+.hot-clear{
+  margin-left:auto;appearance:none;font:inherit;font-size:12px;letter-spacing:.06em;
+  color:#8a847a;background:transparent;border:1px solid var(--line);border-radius:999px;
+  padding:0 11px;min-height:24px;cursor:pointer;
+  transition:color .16s ease,border-color .16s ease,background-color .16s ease;
+}
+.hot-clear:hover{color:var(--red-d);border-color:rgba(213,32,24,.35);background:var(--tint)}
+.hot-clear:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* ============ 超级书签 ============ */
+.bm-card{grid-column:1/-1}
+.bm-intro{margin:0;padding:0 22px 14px;font-size:14px;line-height:1.85;color:#5f594f}
+.bm-list{display:flex;flex-direction:column;padding:0 22px}
+.bm-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 0;border-top:1px solid var(--row);
+}
+.bm-info{flex:1;min-width:0}
+.bm-name{margin:0 0 6px;font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--red-d)}
+.bm-desc{margin:0;font-size:13px;line-height:1.8;color:#6b655b}
+.bm-actions{flex:none;display:flex;align-items:flex-start;gap:10px;padding-top:2px}
+.bm-drag{display:flex;flex-direction:column;align-items:center;gap:6px}
+.bm-chip{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;text-decoration:none;border:1px solid rgba(159,201,15,.45);box-shadow:0 2px 6px rgba(90,120,10,.10);cursor:grab;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+}
+
+.bm-chip{
+  white-space:nowrap;overflow:hidden;
+}
+.bm-chip .bm-leaf{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:100% 0 100% 0;background:linear-gradient(45deg,var(--green-d),var(--green-l));pointer-events:none;display:block;
+}
+
+.bm-drag-tip{font-size:12px;letter-spacing:.04em;color:#8a8378;white-space:nowrap}
+.bm-chip:hover{border-color:#8FB50C;transform:translateY(-2px);box-shadow:0 6px 14px rgba(90,120,10,.18)}
+.bm-chip:active{cursor:grabbing}
+.bm-chip:focus-visible{outline:2px solid var(--red-d);outline-offset:2px}
+.bm-copy{
+  appearance:none;font:inherit;font-size:12px;letter-spacing:.06em;color:#7a746a;
+  background:#fff;border:1px solid var(--line);border-radius:6px;
+  min-height:34px;padding:0 11px;cursor:pointer;
+  transition:color .16s ease,border-color .16s ease,background-color .16s ease;
+}
+.bm-copy{margin-top:13px}
+.bm-copy:hover{color:var(--red-d);border-color:rgba(213,32,24,.35);background:var(--tint)}
+.bm-copy:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.bm-note{
+  margin:16px 22px 4px;padding-top:14px;
+  border-top:1px dashed #ded6c6;
+  font-size:12px;line-height:1.85;color:#7a746a;
+}
+.bm-note p{margin:0 0 4px}
+.bm-note strong{color:var(--red-d)}
+@media (max-width:640px){
+  .bm-item{flex-direction:column;gap:10px}
+  .bm-actions{padding-top:0}
+  .bm-intro,.bm-list{padding-left:16px;padding-right:16px}
+  .bm-note{margin-left:16px;margin-right:16px}
+}
+.hot-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:8px;padding:0 22px 6px;
+}
+.hot-link{
+  display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;letter-spacing:.02em;
+}
+.hot-link:hover{background:var(--tint);border-color:rgba(213,32,24,.3);color:var(--red-d)}
+.hot-link:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.hot-rank{
+  flex:none;min-width:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:#8a847a;background:#f2ece0;
+}
+.hot-rank.top{
+  color:#fff;
+}
+.hot-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hot-count{flex:none;font-size:12px;color:#8a847a;font-variant-numeric:tabular-nums}
+.hot-empty{grid-column:1/-1;margin:0;padding:2px 0 8px;font-size:13px;color:#8a847a}
+
+/* ============ 自定义网址 ============ */
+.cl-toggle{
+  margin-left:auto;appearance:none;font:inherit;font-size:12px;letter-spacing:.06em;
+  color:#8a847a;background:transparent;border:1px solid var(--line);border-radius:999px;
+  padding:0 11px;min-height:24px;cursor:pointer;
+  transition:color .16s ease,border-color .16s ease,background-color .16s ease;
+}
+.cl-toggle:hover{color:var(--red-d);border-color:rgba(213,32,24,.35);background:var(--tint)}
+.cl-toggle[aria-expanded="true"]{color:#fff;background:var(--red);border-color:var(--red-d)}
+.cl-toggle:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.cl-form{display:flex;flex-direction:column;gap:6px;padding:2px 22px 8px}
+.cl-form[hidden]{display:none}
+.cl-input{
+  font:inherit;font-size:13px;color:var(--ink);
+  padding:7px 9px;min-height:34px;width:100%;
+  border:1px solid var(--line);border-radius:4px;background:#fff;
+  transition:border-color .16s ease;
+}
+
+
+.cl-add{
+  appearance:none;font:inherit;font-size:12px;letter-spacing:.1em;
+  color:#fff;background:var(--red);border:1px solid var(--red-d);border-radius:4px;
+  min-height:34px;padding:0 14px;cursor:pointer;
+  box-shadow:0 1px 2px rgba(120,25,12,.16);
+  transition:background-color .16s ease;
+}
+.cl-add:hover{background:var(--red-l)}
+.cl-add:focus-visible{outline:2px solid var(--red-d);outline-offset:2px}
+.cl-row{display:flex;align-items:stretch;border-top:1px solid var(--row)}
+.cl-row .card-link{flex:1;min-width:0;min-height:44px}
+.cl-del{
+  flex:none;appearance:none;font:inherit;font-size:12px;letter-spacing:.04em;
+  color:#8a847a;background:transparent;border:0;border-left:1px solid var(--row);
+  width:46px;cursor:pointer;
+  transition:color .16s ease,background-color .16s ease;
+}
+.cl-del:hover{color:var(--red-d);background:var(--tint)}
+.cl-del:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.cl-empty{margin:0;padding:8px 22px 10px;font-size:12px;line-height:1.8;color:#8a847a}
+
+/* ============ 大小写转换：卡片内部 ============ */
+.tool-card{grid-column:1/-1}
+
+
+.tool-mode{
+  display:flex;padding:0 22px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;
+}
+.tool-mode::-webkit-scrollbar{display:none}
+.tool-mode button{flex:0 0 auto}
+.tool-mode button{
+  appearance:none;font:inherit;font-size:13px;letter-spacing:.06em;color:#7a746a;border-right:0;min-height:44px;cursor:pointer;transition:background-color .18s ease,color .18s ease;
+}
+.tool-mode button:first-child{border-radius:5px 0 0 5px}
+.tool-mode button:last-child{
+  border-radius:0 5px 5px 0;
+}
+.tool-mode button:hover{color:var(--red-d)}
+
+.tool-mode button[aria-selected="true"]:hover{color:#fff}
+.tool-mode button:focus-visible{outline:2px solid var(--red-d);outline-offset:2px}
+
+.tool-body{display:grid;grid-template-columns:1fr;gap:18px;padding:0 22px}
+.tool-label{
+  margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:.14em;color:#8a847a;
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+}
+.tool-field{
+  display:flex;align-items:center;gap:8px;
+  border:1px solid var(--line);border-radius:6px;background:#fff;
+  padding:0 12px;min-height:56px;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+
+.tool-field .cur{font-size:18px;font-weight:700;color:var(--red);flex:none}
+.tool-field input{
+  flex:1;min-width:0;border:0;outline:none;background:transparent;
+  font:inherit;font-size:23px;font-weight:600;color:var(--ink);
+  letter-spacing:.01em;padding:12px 0;font-variant-numeric:tabular-nums;
+}
+.tool-field input::placeholder{font-weight:400;font-size:18px}
+
+.tool-hint{margin:8px 0 0}
+.tool-error{margin:6px 0 0;font-size:12px;color:var(--red-d);font-weight:600}
+.tool-error:empty{display:none}
+
+.tool-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{
+  appearance:none;font:inherit;font-size:12px;letter-spacing:.02em;
+  color:#6f6a60;background:var(--paper);
+  border:1px solid var(--line);border-radius:4px;
+  padding:0 12px;min-height:44px;cursor:pointer;
+  font-variant-numeric:tabular-nums;
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+}
+.chip:hover{background:var(--tint);color:var(--red-d);border-color:rgba(213,32,24,.35)}
+.chip:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* 结果区 */
+.result{
+  background:var(--tint);
+  border-left:3px solid var(--red);
+  border-radius:0 6px 6px 0;
+  padding:13px 16px 15px;
+  min-height:100%;
+  display:flex;flex-direction:column;
+}
+.result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.result-key{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--red-d)}
+.result-big{
+  margin:9px 0 12px;
+  font-size:clamp(19px,3vw,27px);
+  font-weight:700;line-height:1.5;letter-spacing:.04em;
+  color:var(--red-d);word-break:break-all;
+  min-height:1.5em;
+}
+.result.is-empty .result-big{color:#b9b2a6;font-weight:400}
+.result-meta{
+  margin-top:auto;padding-top:10px;
+  border-top:1px dashed rgba(213,32,24,.2);
+  display:flex;flex-wrap:wrap;gap:4px 18px;
+  font-size:12px;color:#7a746a;
+}
+.result-meta b{font-weight:600;color:#5d574d;font-variant-numeric:tabular-nums}
+.copy{
+  flex:none;appearance:none;font:inherit;font-size:12px;letter-spacing:.06em;
+  color:var(--red-d);background:#fff;border:1px solid rgba(213,32,24,.32);
+  border-radius:4px;padding:0 12px;min-height:44px;cursor:pointer;
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+}
+.copy:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.copy:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* 中文数字结果行 */
+.cn-rows{margin-top:2px}
+.cn-row{
+  display:flex;align-items:center;gap:12px;
+  padding:9px 0;border-top:1px solid var(--row);
+}
+.cn-row:first-child{border-top:0;padding-top:2px}
+.cn-row-key{flex:0 0 auto;width:80px;font-size:12px;letter-spacing:.1em;color:#8a847a}
+.cn-row-val{
+  flex:1;min-width:0;
+  font-size:18px;font-weight:700;color:var(--red-d);
+  line-height:1.4;word-break:break-all;
+}
+.cn-row-val.num{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.cn-row.is-empty .cn-row-val{color:#b9b2a6;font-weight:400}
+
+/* 细则 */
+.tool-rules{
+  margin:18px 22px 0;padding:14px 0 18px;
+  border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr;gap:10px;
+}
+.tool-rules dt{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--red-d)}
+.tool-rules dd{margin:4px 0 0;font-size:12px;line-height:1.7;color:#7a746a}
+
+/* ============ 配钞工具 ============ */
+.cash-body{display:grid;grid-template-columns:1fr;gap:18px;padding:0 22px}
+
+.cash-table{width:100%;border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
+.cash-table th:first-child,.cash-table td:first-child{width:34%;text-align:left}
+.cash-table th:nth-child(2),.cash-table td:nth-child(2){width:38%;text-align:center}
+.cash-table th:last-child,.cash-table td:last-child{width:28%;text-align:right}
+.cash-table thead th{
+  background:var(--paper);color:#8a847a;font-size:12px;font-weight:600;letter-spacing:.12em;
+  padding:9px 10px;border-bottom:1px solid var(--line);
+}
+.cash-table tbody td{padding:4px 10px;border-bottom:1px solid var(--row);vertical-align:middle}
+.cash-name{font-size:14px;font-weight:700;color:var(--ink)}
+.cash-name small{margin-left:6px;font-size:12px;font-weight:400;letter-spacing:.04em;color:#a8a196}
+.cash-count{
+  width:100%;min-height:44px;border:1px solid var(--line);border-radius:4px;background:#fff;
+  padding:0 10px;font:inherit;font-size:16px;font-weight:600;color:var(--ink);
+  text-align:right;outline:none;font-variant-numeric:tabular-nums;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+
+.cash-count::placeholder{font-weight:400}
+.cash-sub{font-size:14px;font-weight:700;color:#5d574d}
+.cash-sub.zero{color:#b9b2a6;font-weight:400}
+.cash-table tfoot td{
+  padding:11px 10px;border-top:2px solid var(--line);
+  font-size:14px;font-weight:700;color:var(--red-d);
+}
+.cash-table tfoot td:nth-child(2){font-weight:600;font-size:12px;letter-spacing:.02em}
+.cash-table tfoot td:last-child{font-size:16px;font-variant-numeric:tabular-nums}
+/* 贷款还款计划：四列（期数 / 月供 / 本金 / 利息） */
+.cash-table.loan-table th:first-child,.cash-table.loan-table td:first-child{width:18%}
+.cash-table.loan-table th:nth-child(2),.cash-table.loan-table td:nth-child(2){width:27%}
+.cash-table.loan-table th:nth-child(3),.cash-table.loan-table td:nth-child(3){width:27%;text-align:center}
+.cash-table.loan-table th:last-child,.cash-table.loan-table td:last-child{width:28%}
+.cash-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.cash-note{margin:10px 0 0;font-size:12px;line-height:1.65;color:#8a847a}
+
+.cash-sum{display:flex;flex-direction:column;min-height:0}
+.cash-total{
+  margin:8px 0 4px;font-size:clamp(21px,3vw,28px);font-weight:700;letter-spacing:.02em;
+  color:var(--red-d);font-variant-numeric:tabular-nums;word-break:break-all;
+}
+.cash-upper{margin:0 0 2px;font-size:13px;line-height:1.6;color:#7a746a;word-break:break-all}
+.cash-counts{margin:0 0 14px;font-size:12px;letter-spacing:.04em;color:#8a847a}
+.cash-label{display:block;margin:0 0 6px;font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--red-d)}
+.cash-field{
+  display:flex;align-items:center;gap:6px;background:#fff;
+  border:1px solid var(--line);border-radius:5px;padding:0 10px;min-height:48px;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+
+.cash-field .cur{flex:none;font-size:16px;font-weight:700;color:var(--red)}
+.cash-field input{
+  flex:1;min-width:0;border:0;outline:none;background:transparent;
+  font:inherit;font-size:18px;font-weight:600;color:var(--ink);
+  padding:11px 0;font-variant-numeric:tabular-nums;
+}
+.cash-field input::placeholder{font-weight:400;font-size:14px}
+
+.diff-row{
+  display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:12px;
+  border-top:1px dashed rgba(213,32,24,.2);
+}
+.diff-key{font-size:12px;letter-spacing:.12em;color:#8a847a}
+.diff-val{margin-left:auto;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.diff-val.none{color:#b9b2a6}
+.diff-val.ok{color:var(--green-d)}
+.diff-val.bad{color:var(--red-d)}
+.diff-tag{
+  flex:none;padding:3px 8px;border-radius:3px;
+  font-size:12px;font-weight:700;letter-spacing:.08em;
+  color:#fff;background:#b9b2a6;
+}
+.diff-tag.ok{background:var(--green-d)}
+.diff-tag.bad{background:var(--red)}
+
+/* ============ 大额审批 ============ */
+.big-wrap{grid-column:1/-1}
+.big-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-bottom:14px}
+.big-print{
+  appearance:none;font:inherit;font-size:14px;letter-spacing:.12em;
+  color:#fff;background:var(--red);border:1px solid var(--red-d);border-radius:4px;
+  padding:0 22px;min-height:40px;cursor:pointer;
+  box-shadow:0 2px 8px -3px rgba(120,25,12,.45);
+  transition:background-color .18s ease;
+}
+.big-print:hover{background:var(--red-d)}
+.big-print:focus-visible{outline:2px solid var(--red-d);outline-offset:2px}
+
+
+.big-layout{display:grid;gap:18px;align-items:start;grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.big-layout .tool-card{grid-column:auto}
+.big-sheet-card{container-type:inline-size;min-width:0}
+
+.big-sheet{
+  display:grid;
+  width:100%;
+  aspect-ratio:563.2/333;
+  grid-template-columns:78.8fr 68.2fr 102fr 73.5fr 31.5fr 47.2fr 46.5fr 58.5fr 57fr;
+  grid-template-rows:42fr 20fr 20fr 20fr 20fr 22fr 20fr 20fr 20fr 20fr 16fr 18fr 25fr 25fr 25fr;
+  background:#fff;
+  border-top:1px solid #2b2b2b;border-left:1px solid #2b2b2b;
+  font-family:"宋体",SimSun,"Songti SC",serif;
+  --fs:clamp(7.5px,2.06cqw,26px);font-size:var(--fs);color:#141414;
+  min-height:0;overflow:hidden;
+}
+.big-cell{
+  border-right:1px solid #2b2b2b;border-bottom:1px solid #2b2b2b;
+  padding:2px .35em;display:flex;align-items:center;min-width:0;overflow:hidden;line-height:1.3;white-space:nowrap;
+}
+.big-title{position:relative;justify-content:center;font-size:1.58em;font-weight:700;letter-spacing:.18em}
+.big-logo{position:absolute;left:.5em;top:50%;transform:translateY(-50%);height:calc(var(--fs)*2.1);width:auto;max-width:34%}
+.big-label{font-weight:700;justify-content:center;letter-spacing:0}
+.big-val{width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.big-val.upper{letter-spacing:.02em}
+.big-val.nums{font-variant-numeric:tabular-nums}
+.big-opts{gap:2px;flex-wrap:wrap;padding:1px 6px}
+.big-opt{
+  appearance:none;font:inherit;font-size:.95em;color:#333;background:transparent;
+  border:0;padding:0 .42em;min-height:1.85em;cursor:pointer;white-space:nowrap;
+}
+.big-opt::before{
+  content:"";display:inline-block;width:.75em;height:.75em;margin-right:.33em;
+  border:1px solid #7a746a;border-radius:2px;vertical-align:-1px;
+}
+.big-opt[aria-pressed="true"]{color:var(--red-d);font-weight:700}
+.big-opt[aria-pressed="true"]::before{background:var(--red);border-color:var(--red-d)}
+.big-in{
+  width:100%;min-width:0;border:0;background:transparent;font:inherit;font-size:1em;
+  color:#141414;padding:.22em 0;outline:none;
+}
+.big-in:focus{background:#fffbe9;box-shadow:0 0 0 1px rgba(213,32,24,.35)}
+.big-note{font-size:.92em;color:#333}
+.big-approve{flex-direction:column;align-items:stretch;justify-content:space-between;gap:0}
+.big-approve .big-date-blank{text-align:right}
+.big-opinion{justify-content:space-between;gap:10px}
+.big-opinion span:first-child{flex:none}
+.big-date-blank{flex:none;color:#333}
+
+.big-fields{display:flex;flex-direction:column;gap:9px;padding:0 22px 4px}
+
+.big-field{display:block}
+.big-field-key{display:block;font-size:12px;letter-spacing:.06em;color:#7a746a;margin-bottom:5px}
+.big-field input{
+  width:100%;font:inherit;font-size:14px;color:var(--ink);background:#fff;
+  border:1px solid var(--line);border-radius:4px;padding:7px 10px;min-height:38px;outline:none;
+}
+
+
+.big-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.big-chips .chip{min-height:30px;font-size:12px;padding:0 10px}
+
+/* ============ 密码修改 ============ */
+/* 密码修改：主卡与「修改记录」左右并排 */
+.pwd-layout{grid-column:1/-1;display:grid;gap:18px;align-items:stretch}
+.pwd-layout .tool-card{grid-column:auto}
+.pwd-layout .tool-rules{grid-template-columns:1fr}
+
+.pwd-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 22px}
+.pwd-saved{font-size:12px;letter-spacing:.02em;color:#8a847a}
+.pwd-due{margin-left:auto;font-size:12px;letter-spacing:.04em;color:#7a746a}
+.pwd-due b{margin:0 2px;font-size:18px;font-weight:700;color:var(--red-d);font-variant-numeric:tabular-nums}
+.pwd-due b.clear{color:var(--green-d)}
+.pwd-hint{margin:8px 22px 14px}
+.pwd-list{padding:0 22px;display:flex;flex-direction:column;gap:12px}
+.pwd-empty{margin:0 22px;font-size:13px;color:#8a847a;line-height:1.7}
+
+.pwd-item{border:1px solid var(--line);border-radius:6px;background:#fff;overflow:hidden}
+.pwd-item.soon{border-color:rgba(213,32,24,.45)}
+.pwd-item.over{border-color:var(--red);box-shadow:0 0 0 3px rgba(213,32,24,.07)}
+.pwd-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;background:var(--paper);border-bottom:1px solid var(--line)}
+.pwd-name{
+  flex:1;min-width:120px;border:0;border-bottom:1px dashed transparent;background:transparent;
+  font:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--ink);
+  padding:4px 2px;outline:none;
+}
+.pwd-name:focus{border-bottom-color:rgba(213,32,24,.5)}
+.pwd-name::placeholder{font-weight:400;letter-spacing:.02em;color:#a8a196}
+.pwd-seg{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff}
+.pwd-seg button{
+  appearance:none;border:0;background:transparent;font:inherit;font-size:12px;letter-spacing:.04em;
+  color:#8a847a;padding:0 10px;min-height:34px;min-width:52px;cursor:pointer;
+  transition:background-color .18s ease,color .18s ease;
+}
+.pwd-seg button.on{background:var(--red);color:#fff}
+.pwd-seg button:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.pwd-del{
+  flex:none;appearance:none;font:inherit;font-size:12px;letter-spacing:.04em;
+  color:var(--red-d);background:#fff;border:1px solid rgba(213,32,24,.3);
+  border-radius:4px;padding:0 10px;min-height:34px;cursor:pointer;
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+}
+.pwd-del:hover,.pwd-del.arming{background:var(--red);color:#fff;border-color:var(--red)}
+.pwd-del:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+.pwd-body{padding:10px 12px 12px}
+.pwd-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px}
+.pwd-fact{min-width:0}
+.pwd-fact dt{font-size:11px;letter-spacing:.1em;color:#a09a8f}
+.pwd-fact dd{margin:3px 0 0;font-size:14px;font-weight:600;color:#5d574d;font-variant-numeric:tabular-nums}
+.pwd-fact dd.big{font-size:18px;font-weight:700;color:var(--ink)}
+.pwd-fact dd.ok{color:#5d574d}
+.pwd-fact dd.soon{color:var(--red-d)}
+.pwd-fact dd.over{color:var(--red-d);font-weight:700}
+.pwd-fact dd.mute{color:#b9b2a6;font-weight:400}
+.pwd-when{display:flex;align-items:center;gap:8px;margin-top:10px}
+.pwd-date{
+  flex:1;min-width:0;min-height:40px;border:1px solid var(--line);border-radius:4px;background:#fff;
+  padding:0 8px;font:inherit;font-size:15px;color:var(--ink);outline:none;
+}
+
+.pwd-mark{
+  flex:none;appearance:none;font:inherit;font-size:12px;font-weight:600;letter-spacing:.04em;
+  color:#fff;background:var(--red);border:1px solid var(--red);border-radius:4px;
+  padding:0 12px;min-height:40px;cursor:pointer;
+  transition:background-color .18s ease,transform .18s ease;
+}
+.pwd-mark:hover{background:var(--red-d);border-color:var(--red-d)}
+.pwd-mark:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+.pwd-hist{display:flex;flex-direction:column;gap:0;padding:0 22px 18px}
+.pwd-hrow{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;
+  padding:9px 0;border-bottom:1px solid var(--row);font-size:13px;color:#5d574d;
+}
+.pwd-hrow .d{flex:none;font-variant-numeric:tabular-nums;font-weight:700;color:var(--red-d)}
+.pwd-hrow .n{font-weight:600;color:var(--ink)}
+.pwd-hrow .c{font-size:12px;letter-spacing:.04em;color:#8a847a}
+.pwd-hrow .g{margin-left:auto;font-size:12px;color:#8a847a;font-variant-numeric:tabular-nums}
+.pwd-hrow.last{border-bottom:0}
+.pwd-hempty{font-size:13px;color:#8a847a;padding:4px 0 2px}
+
+/* ============ 提示 ============ */
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,8px);
+  background:var(--red-d);color:#fff;font-size:13px;letter-spacing:.06em;
+  padding:10px 18px;border-radius:4px;opacity:0;pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;z-index:9;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+[hidden]{display:none !important}
+
+/* ============ 页脚 ============ */
+footer{
+  margin-top:22px;
+  padding:26px 20px;text-align:center;
+  border-top:4px solid var(--green);
+  background-image:
+    repeating-radial-gradient(circle at 85% 150%,rgba(255,255,255,.04) 0 1px,transparent 1px 26px),
+    linear-gradient(120deg,var(--red-d),#81090b);
+}
+footer p{
+  margin:0;color:rgba(255,248,240,.85);
+}
+
+/* ============ 响应式 ============ */
+@media (min-width:820px){
+  .tool-body{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:22px}
+  .cash-body{grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:22px}
+  .cash-sum{align-self:start}
+  .tool-rules{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .pwd-layout{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+}
+
+/* 左 2 : 右 1；表格用宽高比锁定形状，字号随容器宽度等比缩放，过宽过窄都不变形 */
+.big-aside{align-self:start;min-width:0}
+@media (max-width:600px){
+  .big-layout{grid-template-columns:minmax(0,1fr)}
+  .big-fields{padding:0 16px 4px}
+}
+@media (min-width:1200px){
+  .pwd-facts{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 16px}
+}
+@media (max-width:640px){
+  .hero::after{display:none}
+}
+@media (max-width:560px){
+  .view{padding:0 16px}
+  
+  
+  
+  .brand{gap:11px}
+  .brand-zh{font-size:18px}
+  .brand-en{font-size:9px;letter-spacing:.14em}
+  
+  .view{gap:16px;margin-top:16px}
+  .card-content{padding-top:14px}
+  .card-title{padding:0 18px 12px;font-size:15px}
+  .card-link{min-height:42px;padding:9px 18px}
+  .card-link:hover{padding-left:23px}
+  .tool-mode{padding:0 16px;flex-wrap:wrap}
+  .tool-body{padding:0 16px;gap:14px}
+  .cash-body{padding:0 16px;gap:14px}
+  .cash-table thead th,.cash-table tbody td,.cash-table tfoot td{padding-left:8px;padding-right:8px}
+  .cash-name{font-size:14px}
+  .cash-name small{margin-left:4px;font-size:11px}
+  .pwd-tools{padding:0 16px}
+  .pwd-saved{width:100%}
+  .pwd-due{width:100%;margin-left:0}
+  .pwd-hint{margin:8px 16px 12px}
+  .pwd-list,.pwd-hist{padding-left:16px;padding-right:16px}
+  .pwd-head{gap:8px}
+  .pwd-name{font-size:14px;order:1;flex:1 1 100%}
+  .pwd-seg{order:2}
+  .pwd-del{order:3;margin-left:auto}
+  .pwd-facts{gap:8px 10px}
+  .pwd-fact dd{font-size:14px}
+  .pwd-fact dd.big{font-size:16px}
+  .pwd-date{font-size:16px}
+  .tool-rules{margin:16px 16px 0;padding-bottom:16px}
+  .result{padding:12px 14px 14px}
+  .cn-row{gap:10px}
+  .cn-row-key{width:68px;font-size:12px;letter-spacing:.06em}
+  .cn-row-val{font-size:17.5px}
+  .cn-row .copy{padding:0 9px;font-size:12px}
+  .tabs{overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{
+  white-space:nowrap;flex:0 0 auto;
+}
+  footer{margin-top:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none !important}
+  .card:hover{transform:none}
+}
+
+
+/* ============================================================
+   V3 视觉升级层：只覆盖外观与动效，不动功能逻辑
+   ============================================================ */
+:root{
+  --paper:#f4efe6;
+  --ink:#2f2b25;
+  --line:#e6dfd1;
+  --row:#f1ece1;
+  --radius:14px;
+  --ease:cubic-bezier(.22,.75,.3,1);
+  --sh-1:0 1px 2px rgba(80,40,20,.05),0 12px 26px -22px rgba(80,30,15,.40);
+  --sh-2:0 2px 6px rgba(80,40,20,.06),0 26px 48px -28px rgba(110,30,15,.42);
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(900px 420px at 92% -80px,rgba(159,201,15,.08),transparent 62%),
+    radial-gradient(760px 380px at 4% -60px,rgba(213,32,24,.06),transparent 64%),
+    repeating-linear-gradient(0deg,rgba(120,90,60,.022) 0 1px,transparent 1px 24px),
+    var(--paper);
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar{padding:13px var(--pad);background:rgba(255,253,248,.92);border-bottom:1px solid rgba(230,223,209,.75)}
+.brand{gap:13px}
+.brand svg{width:46px;height:46px;filter:drop-shadow(0 6px 12px rgba(213,32,24,.16))}
+.brand-zh{font-size:20px;letter-spacing:.1em;color:#27231d}
+.brand-en{font-size:10px;letter-spacing:.22em;color:#a59e91}
+.brand-meta{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:#8a847a;letter-spacing:.04em}
+.brand-badge{
+  padding:4px 10px;border-radius:999px;white-space:nowrap;
+  border:1px solid rgba(159,201,15,.45);background:rgba(159,201,15,.10);
+  color:#6f8f0c;font-size:11px;letter-spacing:.14em;
+}
+.brand-date{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- 标题横幅 ---------- */
+.hero{
+  padding:30px 20px 32px;border-bottom:3px solid var(--green);overflow:hidden;
+  background-image:
+    radial-gradient(620px 220px at 50% 130%,rgba(255,255,255,.14),transparent 70%),
+    repeating-radial-gradient(circle at 12% 140%,rgba(255,255,255,.05) 0 1px,transparent 1px 26px),
+    repeating-radial-gradient(circle at 88% -40%,rgba(255,255,255,.04) 0 1px,transparent 1px 26px),
+    linear-gradient(118deg,#d52018 0%,#b31413 55%,#8d0a0b 100%);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.07) 46%,transparent 68%);
+  transform:translateX(-75%);animation:heroSheen 16s ease-in-out 2s infinite;
+}
+.hero::after{
+  right:4%;width:150px;height:150px;border-radius:100% 0 100% 0;
+  background:radial-gradient(circle at 32% 32%,rgba(255,255,255,.10),rgba(255,255,255,.02) 62%,transparent 72%);
+  transform:translateY(-50%) rotate(-10deg);
+}
+.hero h1{font-size:clamp(20px,2.4vw,27px);letter-spacing:.14em;text-shadow:0 2px 20px rgba(0,0,0,.18)}
+.hero-sub{
+  position:relative;z-index:1;margin:10px 0 0;text-indent:.32em;
+  font-size:12px;letter-spacing:.32em;color:rgba(255,248,240,.72);
+}
+@keyframes heroSheen{
+  0%,55%,100%{transform:translateX(-75%)}
+  80%{transform:translateX(75%)}
+}
+
+/* ---------- 页签：吸顶胶囊条 ---------- */
+.tabs{
+  position:sticky;top:10px;z-index:40;gap:2px;
+  margin:18px var(--pad) 0;padding:5px;
+  border:1px solid rgba(230,223,209,.9);border-radius:14px;
+  background:rgba(255,253,248,.86);
+  -webkit-backdrop-filter:blur(14px) saturate(1.08);
+  backdrop-filter:blur(14px) saturate(1.08);
+  box-shadow:0 12px 30px -24px rgba(90,30,15,.5);
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{
+  top:0;border:0;border-radius:10px;padding:0 16px;min-height:40px;
+  font-size:14px;letter-spacing:.08em;color:#6f6a60;background:transparent;
+  transition:color .18s var(--ease),background-color .18s var(--ease),box-shadow .18s var(--ease),transform .18s var(--ease);
+}
+.tabs button:hover{background:var(--tint);color:var(--red-d)}
+.tabs button[aria-selected="true"]{
+  color:#fff;border-color:transparent;
+  background:linear-gradient(135deg,var(--red-l),var(--red) 45%,var(--red-d));
+  box-shadow:0 8px 18px -10px rgba(213,32,24,.75);
+}
+.tabs button[aria-selected="true"]::after{display:none}
+.tabs button:active{transform:scale(.985)}
+
+/* ---------- 卡片 ---------- */
+.card{border-radius:var(--radius);border-color:rgba(228,220,205,.9);box-shadow:var(--sh-1)}
+.card:hover{transform:translateY(-4px);border-color:rgba(213,32,24,.20);box-shadow:var(--sh-2)}
+.card-title{font-size:15px;letter-spacing:.13em}
+.card-title::before{width:10px;height:10px;box-shadow:0 0 0 3px rgba(159,201,15,.16)}
+.card-link{font-size:14px;color:#3a352e}
+.card-link:hover{padding-left:22px}
+.card-link::before{width:3px;border-radius:0 3px 3px 0}
+
+/* ---------- 常用网址 ---------- */
+.hot-card.is-empty .hot-clear{display:none}
+.hot-link{border-radius:10px;border-color:rgba(228,220,205,.9);background:#fff;
+  transition:background-color .16s var(--ease),border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease),box-shadow .16s var(--ease)}
+.hot-link:hover{transform:translateY(-1px);box-shadow:0 10px 18px -16px rgba(90,30,15,.5)}
+.hot-rank{border-radius:50%;width:22px;height:22px}
+.hot-rank.top{background:linear-gradient(135deg,var(--red-l),var(--red-d))}
+
+/* ---------- 结果面板 ---------- */
+.result{border-radius:0 12px 12px 0;border-left-width:4px;background:linear-gradient(180deg,#fdf2f0,#fbe9e6)}
+
+/* ---------- 按钮 / 输入 ---------- */
+.chip{
+  background:#fff;border-color:rgba(228,220,205,.95);border-radius:999px;color:#5f594f;
+  transition:transform .16s var(--ease),background-color .16s var(--ease),color .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease);
+}
+.chip:hover{transform:translateY(-1px);box-shadow:0 8px 16px -12px rgba(120,40,20,.55)}
+.chip:active{transform:none}
+.cl-add,.big-print,.pwd-mark{
+  background:linear-gradient(135deg,var(--red-l),var(--red) 55%,var(--red-d));
+  border-color:transparent;box-shadow:0 8px 18px -12px rgba(213,32,24,.7);
+}
+.cl-add:hover,.big-print:hover,.pwd-mark:hover{background:linear-gradient(135deg,var(--red),var(--red-d))}
+/* ---------- 控件风格统一：圆角 / 聚焦环 / 占位符 ---------- */
+.tool-field,.cash-field,.cl-input,.pwd-date,.cash-count,.big-field input{border-radius:9px}
+.tool-field:focus-within,.cash-field:focus-within,
+.cl-input:focus,.pwd-date:focus,.cash-count:focus,
+.big-field input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(213,32,24,.1)}
+.tool-field input::placeholder,.cash-field input::placeholder,.cl-input::placeholder,
+.big-field input::placeholder{color:#b3ada1}
+
+/* ---------- 圆角规范：控件 9px / 卡片 14px / 胶囊 999px ---------- */
+.cl-add,.copy,.cl-del,.big-print,.pwd-del,.pwd-mark,
+.bm-copy,.tabs button,.toast,.diff-tag,.pwd-seg,.pwd-item,.hot-link{border-radius:9px}
+/* 键盘聚焦色统一 */
+.bm-chip:focus-visible,.cl-add:focus-visible,.tool-mode button:focus-visible,
+.big-print:focus-visible{outline-color:var(--red)}
+
+/* 各页说明文字统一排版 */
+.tool-hint,.pwd-hint,.big-tip{font-size:12px;line-height:1.65;color:#8a847a}
+
+/* ---------- 超级书签 ---------- */
+.sr-only{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+.bm-chip{text-indent:0;border-radius:16px;background:linear-gradient(180deg,#fff,#fbfdf4)}
+.bm-chip .bm-leaf{width:24px;height:24px;box-shadow:0 8px 14px -8px rgba(127,163,12,.65)}
+
+/* ---------- 页脚 ---------- */
+footer{padding:18px 20px 16px;border-top:3px solid var(--green)}
+footer p{font-size:12px;letter-spacing:.26em}
+.data-tools{margin-top:10px}
+
+/* ---------- 回到顶部 ---------- */
+.to-top{
+  position:fixed;right:26px;bottom:26px;z-index:60;
+  width:44px;height:44px;border-radius:50%;border:1px solid rgba(213,32,24,.22);
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;color:var(--red-d);cursor:pointer;
+  box-shadow:0 12px 26px -12px rgba(90,30,15,.5);
+  opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:opacity .22s var(--ease),transform .22s var(--ease),visibility .22s,background-color .18s,color .18s;
+}
+.to-top svg{width:20px;height:20px;display:block}
+.to-top.is-on{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ---------- 视图切换与入场动效 ---------- */
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.view:not([hidden]){animation:fadeIn .3s ease}
+.view:not([hidden]) > .card,
+.view:not([hidden]) > .pwd-layout > .card,
+.view:not([hidden]) > .big-wrap{animation:riseIn .5s var(--ease) backwards}
+.view:not([hidden]) > .card:nth-child(2){animation-delay:.05s}
+.view:not([hidden]) > .card:nth-child(3){animation-delay:.10s}
+.view:not([hidden]) > .card:nth-child(4){animation-delay:.15s}
+.view:not([hidden]) > .card:nth-child(5){animation-delay:.20s}
+.view:not([hidden]) > .card:nth-child(6){animation-delay:.25s}
+.view:not([hidden]) > .card:nth-child(7){animation-delay:.30s}
+.view:not([hidden]) > .pwd-layout > .card:nth-child(2){animation-delay:.06s}
+
+.tool-card:hover{transform:none;box-shadow:var(--sh-1);border-color:rgba(228,220,205,.9)}
+
+/* 宽屏：右侧汇总栏跟随滚动，避免留下大片空白卡片 */
+@media (min-width:820px){
+  .pwd-layout{align-items:start}
+  .pwd-layout > .card:last-child{position:sticky;top:86px}
+}
+
+@media (min-width:1680px){
+  .tabs,.view{max-width:1680px;margin-left:auto;margin-right:auto}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+  .brand-date{display:none}
+}
+@media (max-width:560px){
+  .topbar{padding:12px 16px}
+  .brand svg{width:40px;height:40px}
+  .brand-meta{display:none}
+  .hero{padding:24px 14px 26px}
+  .hero-sub{font-size:11px;letter-spacing:.2em;text-indent:.2em}
+  .tabs{top:8px;margin:14px 16px 0;padding:4px;border-radius:12px}
+  .tabs button{min-height:38px;padding:0 13px;font-size:14px;letter-spacing:.03em}
+  .card{border-radius:12px}
+  .to-top{right:14px;bottom:16px;width:42px;height:42px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero::before{animation:none}
+  .view,.view .card,.view .big-wrap{animation:none!important}
+  html{scroll-behavior:auto}
+}
+
+@media print{
+  .to-top,.brand-meta{display:none!important}
+  .view,.view .card,.view .big-wrap{animation:none!important}
+}
+
+
+/* ---------- V3 增补：工具页签胶囊化 / 空状态 ---------- */
+.hero h1{text-indent:.14em}
+.tool-mode{gap:6px}
+.tool-mode button{
+  border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 15px;
+}
+.tool-mode button:first-child,.tool-mode button:last-child{border-radius:9px}
+.tool-mode button:last-child{border-right:1px solid var(--line)}
+.tool-mode button[aria-selected="true"]{
+  background:linear-gradient(135deg,var(--red-l),var(--red) 45%,var(--red-d));
+  border-color:transparent;color:#fff;box-shadow:0 6px 14px -10px rgba(213,32,24,.7);
+}
+.hot-empty{display:flex;align-items:center;gap:10px}
+.hot-empty-icon{
+  flex:none;width:26px;height:26px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(159,201,15,.14);
+}
+.hot-empty-icon::before{
+  content:"";width:12px;height:12px;border-radius:100% 0 100% 0;
+  background:linear-gradient(45deg,var(--green-d),var(--green-l));
+  transform:rotate(-8deg);
+}
+.hot-card.is-empty .card-content{padding-bottom:16px}
+
+/* ============ 打印：只输出审批表 ============ */
+@media print{
+  @page{size:A4 portrait;margin:8mm}
+  html,body{background:#fff !important}
+  body{margin:0;padding:0}
+  header,.tabs,.data-tools,footer,.toast,.big-tools,.big-aside{display:none !important}
+  .view:not(#view-big){display:none !important}
+  #view-big{padding:0 !important;margin:0 !important;gap:0 !important;display:block !important}
+  #view-big .big-wrap{display:block !important;margin:0}
+  .big-layout{display:block !important}
+  .big-sheet-card{
+    border:0 !important;box-shadow:none !important;border-radius:0 !important;
+    overflow:visible !important;background:#fff !important;container-type:normal !important;
+  }
+  .big-sheet-card::before{display:none !important}
+  .big-sheet{
+    width:193mm;margin:0 auto;aspect-ratio:auto;
+    grid-template-columns:78.8fr 68.2fr 102fr 73.5fr 31.5fr 47.2fr 46.5fr 58.5fr 57fr;
+    grid-template-rows:40pt 19pt 19pt 19pt 19pt 21pt 19pt 19pt 19pt 19pt 15pt 17pt 24pt 24pt 24pt;
+    font-size:11.5pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .big-title{font-size:19pt}
+  .big-logo{height:9.5mm;left:4mm;max-width:44%}
+  .big-label,.big-note,.big-in,.big-opinion,.big-date-blank,.big-approve{font-size:10pt}
+  .big-opt{font-size:9pt;min-height:0;padding:0 4px}
+  .big-opt::before{width:9px;height:9px;border-color:#000}
+  .big-opt[aria-pressed="true"]::before{background:#000 !important;border-color:#000 !important}
+  .big-in{padding:0}
+  .big-cell{padding:2px 5px}
+  .big-val{text-overflow:clip;white-space:nowrap}
+  .big-approve .big-date-blank{text-align:right}
+}
+
+
+/* ============ 左侧页签栏 ============ */
+.shell{
+  display:grid;grid-template-columns:200px minmax(0,1fr);
+  gap:22px;align-items:start;
+  padding:0 var(--pad);margin-top:22px;
+  transition:grid-template-columns .34s var(--ease),gap .34s var(--ease);
+}
+.side{position:sticky;top:10px;z-index:40;min-width:0;max-height:calc(100vh - 20px);overflow-y:auto;scrollbar-width:thin;transition:opacity .22s var(--ease)}
+.tabs{
+  display:flex;flex-direction:column;flex-wrap:nowrap;
+  position:static;margin:0;padding:6px;gap:4px;
+  border-radius:14px;overflow:visible;
+}
+.tabs button{width:100%;justify-content:flex-start;text-align:left;padding:0 14px;min-height:40px;letter-spacing:.06em;border-radius:9px}
+.stage{min-width:0}
+.view{margin-top:0;padding:0}
+.side-fab{
+  position:fixed;left:16px;bottom:16px;z-index:50;
+  width:44px;height:44px;display:grid;place-items:center;
+  padding:0;border:1px solid rgba(230,223,209,.9);border-radius:12px;
+  background:rgba(255,253,248,.96);color:#6f6a60;cursor:pointer;
+  box-shadow:0 14px 30px -18px rgba(90,30,15,.65);
+  -webkit-backdrop-filter:blur(12px) saturate(1.06);
+  backdrop-filter:blur(12px) saturate(1.06);
+  transition:transform .18s var(--ease),color .18s var(--ease),background-color .18s var(--ease),box-shadow .18s var(--ease);
+}
+.side-fab svg{width:20px;height:20px}
+.side-fab{animation:sideFabIn .24s var(--ease)}
+@keyframes sideFabIn{from{opacity:0;transform:translateY(8px)}}
+.side-fab:hover{transform:translateY(-2px);background:#fff;color:var(--red-d);box-shadow:0 18px 32px -18px rgba(90,30,15,.7)}
+.side-fab:active{transform:translateY(0) scale(.97)}
+.side-fab:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.shell.collapsed{grid-template-columns:0 minmax(0,1fr);gap:0}
+.shell.collapsed .side{max-height:none;overflow:hidden;opacity:0;pointer-events:none}
+@media (max-width:1080px){
+  .shell{grid-template-columns:168px minmax(0,1fr);gap:16px}
+  .tabs button{min-height:38px;padding:0 12px;font-size:13px;letter-spacing:.02em}
+}
+@media (max-width:640px){
+  .shell{grid-template-columns:120px minmax(0,1fr);gap:10px}
+  .side{top:8px;max-height:calc(100vh - 16px)}
+  .tabs{padding:4px;gap:3px}
+  .tabs button{min-height:34px;padding:0 8px;font-size:12px;letter-spacing:0}
+}
+@media print{
+  .side-toggle,.side-fab{display:none!important}
+  .shell,.stage{display:block!important;padding:0!important;margin:0!important}
+  .view{padding:0!important;margin:0!important}
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="网址导航标志"><rect x="96" y="96" width="356" height="356" rx="64" fill="#D52018"></rect><rect x="572" y="96" width="356" height="356" rx="64" fill="#9FC90F"></rect><rect x="96" y="572" width="356" height="356" rx="64" fill="#9FC90F"></rect><rect x="572" y="572" width="356" height="356" rx="64" fill="#D52018"></rect></svg>
+      <span class="brand-text">
+        <span class="brand-zh">常用网址导航</span>
+        <span class="brand-en">MY LINKS &amp; TOOLS</span>
+      </span>
+      <div class="brand-meta">
+        <span class="brand-badge">本地保存</span>
+        <span class="brand-date" id="brand-date"></span>
+      </div>
+    </div>
+  </div>
+  <div class="hero">
+    <h1>常用网址导航</h1>
+    <p class="hero-sub">自定义书签 · 实用工具 · 一屏直达</p>
+  </div>
+</header>
+
+<div class="shell">
+<aside class="side">
+<div class="tabs" id="side-tabs" role="tablist" aria-orientation="vertical" aria-label="页面分区">
+  <button type="button" role="tab" id="tab-nav" data-view="nav" aria-selected="true" aria-controls="view-nav">网址导航</button>
+  <button type="button" role="tab" id="tab-tool" data-view="tool" aria-selected="false" aria-controls="view-tool">大小写转换</button>
+  <button type="button" role="tab" id="tab-cash" data-view="cash" aria-selected="false" aria-controls="view-cash">配钞工具</button>
+  <button type="button" role="tab" id="tab-pwd" data-view="pwd" aria-selected="false" aria-controls="view-pwd">密码修改</button>
+  <button type="button" role="tab" id="tab-big" data-view="big" aria-selected="false" aria-controls="view-big">大额审批</button>
+  <button type="button" role="tab" id="tab-loan" data-view="loan" aria-selected="false" aria-controls="view-loan">贷款计算</button>
+  <button type="button" role="tab" id="tab-lit" data-view="lit" aria-selected="false" aria-controls="view-lit">诉讼计算</button>
+  <button type="button" role="tab" id="tab-bm" data-view="bm" aria-selected="false" aria-controls="view-bm">超级书签</button>
+</div>
+</aside>
+<div class="stage">
+
+<!-- ===========================================================
+     视图一：网址导航
+     =========================================================== -->
+<div class="view" id="view-nav">
+
+<div class="card hot-card" id="hot-card">
+  <div class="card-content">
+    <h2 class="card-title">常用网址<button type="button" class="hot-clear" id="hot-clear">清空记录</button></h2>
+    <div class="hot-list" id="hot-list"></div>
+  </div>
+</div>
+
+<div class="card" id="cl-card">
+  <div class="card-content">
+    <h2 class="card-title">自定义网址<button type="button" class="cl-toggle" id="cl-toggle" aria-expanded="false" aria-controls="cl-form">新增</button></h2>
+    <div class="cl-form" id="cl-form" hidden>
+      <input class="cl-input" id="cl-name" type="text" maxlength="24" placeholder="名称，如 网银助手">
+      <input class="cl-input" id="cl-url" type="text" placeholder="地址，如 https://example.com">
+      <button type="button" class="cl-add" id="cl-add">添加</button>
+    </div>
+    <div class="card-links cl-list" id="cl-list"></div>
+  </div>
+</div>
+
+
+
+
+
+</div>
+
+<!-- ===========================================================
+     视图二：数字大小写转换
+     =========================================================== -->
+<div class="view" id="view-tool" hidden>
+
+<div class="card tool-card">
+  <div class="card-content">
+    <h2 class="card-title">数字大小写转换</h2>
+
+    <div class="tool-mode" role="tablist" aria-label="转换类型">
+      <button type="button" role="tab" id="mode-money" data-mode="money" aria-selected="true" aria-controls="pane-money">金额大写</button>
+      <button type="button" role="tab" id="mode-cn" data-mode="cn" aria-selected="false" aria-controls="pane-cn">中文数字</button>
+      <button type="button" role="tab" id="mode-date" data-mode="date" aria-selected="false" aria-controls="pane-date">日期大写</button>
+    </div>
+
+    <!-- 金额 -->
+    <div class="tool-body" id="pane-money">
+      <div>
+        <label class="tool-label" for="input-money">输入金额</label>
+        <div class="tool-field">
+          <span class="cur" aria-hidden="true">¥</span>
+          <input id="input-money" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"
+                 placeholder="1234.56" value="1234.56" aria-describedby="hint-money">
+        </div>
+        <p class="tool-hint" id="hint-money">可带千分位、￥符号和「元」字，小数超过两位按四舍五入处理到分。</p>
+        <p class="tool-error" id="error-money" role="alert"></p>
+        <div class="tool-chips">
+          <button type="button" class="chip" data-target="input-money" data-v="1234.56">¥1,234.56</button>
+          <button type="button" class="chip" data-target="input-money" data-v="10000">¥10,000</button>
+          <button type="button" class="chip" data-target="input-money" data-v="1000008.07">¥1,000,008.07</button>
+          <button type="button" class="chip" data-target="input-money" data-v="0.05">¥0.05</button>
+          <button type="button" class="chip" data-target="input-money" data-v="200000000">¥2亿</button>
+        </div>
+      </div>
+
+      <div class="result" id="result-money" aria-live="polite">
+        <div class="result-head">
+          <span class="result-key">人民币（大写）</span>
+          <button type="button" class="copy" data-copy="upper">复制</button>
+        </div>
+        <p class="result-big" id="upper">—</p>
+        <div class="result-meta">
+          <span>小写 <b id="lower">—</b></span>
+          <span>位数 <b id="meta">—</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中文数字 -->
+    <div class="tool-body" id="pane-cn" hidden>
+      <div>
+        <label class="tool-label" for="input-cn">输入中文数字或数字</label>
+        <div class="tool-field">
+          <input id="input-cn" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="一百二十三 / 壹佰贰拾叁 / 123" value="一百二十三" aria-describedby="hint-cn">
+        </div>
+        <p class="tool-hint" id="hint-cn">大写、小写、阿拉伯数字都认：「壹佰贰拾叁」会转成一百二十三，反之亦然。</p>
+        <p class="tool-error" id="error-cn" role="alert"></p>
+        <div class="tool-chips">
+          <button type="button" class="chip" data-target="input-cn" data-v="一百二十三">一百二十三</button>
+          <button type="button" class="chip" data-target="input-cn" data-v="壹佰贰拾叁">壹佰贰拾叁</button>
+          <button type="button" class="chip" data-target="input-cn" data-v="10086">10086</button>
+          <button type="button" class="chip" data-target="input-cn" data-v="两万三千">两万三千</button>
+          <button type="button" class="chip" data-target="input-cn" data-v="100000000">100000000</button>
+        </div>
+      </div>
+
+      <div class="result" id="result-cn" aria-live="polite">
+        <div class="result-head">
+          <span class="result-key">中文数字</span>
+        </div>
+        <div class="cn-rows">
+          <div class="cn-row" id="row-upper">
+            <div class="cn-row-key">中文大写</div>
+            <div class="cn-row-val" id="cn-upper">—</div>
+            <button type="button" class="copy" data-copy="cn-upper">复制</button>
+          </div>
+          <div class="cn-row" id="row-small">
+            <div class="cn-row-key">中文小写</div>
+            <div class="cn-row-val" id="cn-small">—</div>
+            <button type="button" class="copy" data-copy="cn-small">复制</button>
+          </div>
+          <div class="cn-row" id="row-num">
+            <div class="cn-row-key">阿拉伯数字</div>
+            <div class="cn-row-val num" id="cn-num">—</div>
+            <button type="button" class="copy" data-copy="cn-num">复制</button>
+          </div>
+          <div class="cn-row" id="row-money">
+            <div class="cn-row-key">金额写法</div>
+            <div class="cn-row-val" id="cn-money">—</div>
+            <button type="button" class="copy" data-copy="cn-money">复制</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 日期大写 -->
+    <div class="tool-body" id="pane-date" hidden>
+      <div>
+        <label class="tool-label" for="input-date">输入日期</label>
+        <div class="tool-field">
+          <input id="input-date" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="2026-02-11 或 2026年2月11日" aria-describedby="hint-date">
+        </div>
+        <p class="tool-hint" id="hint-date">支持 2026-02-11、2026/2/11、2026年2月11日、20260211 四种写法。</p>
+        <p class="tool-error" id="error-date" role="alert"></p>
+        <div class="tool-chips">
+          <button type="button" class="chip" data-target="input-date" data-today="1">今天</button>
+          <button type="button" class="chip" data-target="input-date" data-v="2026-02-11">2026-02-11</button>
+          <button type="button" class="chip" data-target="input-date" data-v="2026-12-31">2026-12-31</button>
+          <button type="button" class="chip" data-target="input-date" data-v="2026-01-05">2026-01-05</button>
+        </div>
+      </div>
+
+      <div class="result" id="result-date" aria-live="polite">
+        <div class="result-head">
+          <span class="result-key">凭证日期（大写）</span>
+          <button type="button" class="copy" data-copy="date-upper">复制</button>
+        </div>
+        <p class="result-big" id="date-upper">—</p>
+        <div class="result-meta">
+          <span>日期 <b id="date-plain">—</b></span>
+          <span>年月日 <b id="date-parts">—</b></span>
+        </div>
+      </div>
+    </div>
+
+    <dl class="tool-rules">
+      <div>
+        <dt>基本规则</dt>
+        <dd>金额到「元」或「角」为止的，在「元」「角」后写「整」；到分的不写。角位为零、分位不为零时，元后只写一个「零」，如壹元零伍分。</dd>
+      </div>
+      <div>
+        <dt>用字与范围</dt>
+        <dd>用壹贰叁肆伍陆柒捌玖拾佰仟万亿，不用一二三；支持到 9999 亿（12 位）。</dd>
+      </div>
+          <div>
+        <dt>凭证大写日期</dt>
+        <dd>年份逐位写（贰零贰陆）；月、日在 1–9 时前面加「零」，如零叁月零伍日；10–19 写「壹拾壹」，20 以上写「贰拾壹」「叁拾壹」。</dd>
+      </div>
+</dl>
+  </div>
+</div>
+
+</div>
+
+<!-- ===========================================================
+     视图三：配钞工具（按月末碰库交点表的券别/张数/金额三列）
+     =========================================================== -->
+<div class="view" id="view-cash" hidden>
+
+<div class="card tool-card">
+  <div class="card-content">
+    <h2 class="card-title">配钞工具</h2>
+
+    <div class="cash-body">
+      <div>
+        <table class="cash-table" aria-label="各券别张数与金额">
+          <thead>
+            <tr><th scope="col">券别</th><th scope="col">张数</th><th scope="col">小计金额</th></tr>
+          </thead>
+          <tbody id="cash-rows"></tbody>
+          <tfoot>
+            <tr>
+              <td>合计</td>
+              <td id="cash-total-count">0 张</td>
+              <td id="cash-total-sub">¥0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="cash-actions">
+          <button type="button" class="chip" id="cash-sample">填入示例</button>
+          <button type="button" class="chip" id="cash-clear">清空张数</button>
+        </div>
+        <p class="cash-note">张数按实际清点填写，小计 = 面额 × 张数，合计为各券别小计之和，改动任意一格即时重算。</p>
+      </div>
+
+      <div class="result cash-sum" id="cash-sum" aria-live="polite">
+        <div class="result-head">
+          <span class="result-key">配钞汇总</span>
+          <button type="button" class="copy" data-copy="cash-total">复制合计</button>
+        </div>
+        <p class="cash-total" id="cash-total">¥0.00</p>
+        <p class="cash-upper" id="cash-upper">零元整</p>
+        <p class="cash-counts" id="cash-counts">共 0 张</p>
+
+        <label class="cash-label" for="cash-expect">预计金额（尾箱应有）</label>
+        <div class="cash-field">
+          <span class="cur" aria-hidden="true">¥</span>
+          <input id="cash-expect" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"
+                 placeholder="392341.76" aria-describedby="cash-error">
+        </div>
+        <p class="tool-error" id="cash-error" role="alert"></p>
+
+        <div class="diff-row">
+          <span class="diff-key">差额</span>
+          <span class="diff-val none" id="cash-diff">—</span>
+          <span class="diff-tag" id="cash-tag">待比对</span>
+        </div>
+        <p class="cash-note" id="cash-note">填好预计金额后自动比对：差额 0 为「相符」，正数为「长款」，负数为「短款」。</p>
+      </div>
+    </div>
+
+    <dl class="tool-rules">
+      <div>
+        <dt>逐行小计与合计</dt>
+        <dd>小计 = 券别面额 × 张数，按「分」取整后相加，不会出现角分尾差；合计即实点现金总额。</dd>
+      </div>
+      <div>
+        <dt>与尾箱余额核对</dt>
+        <dd>柜员尾箱科目 10010200 最后借方余额；存取一体机科目 10010300，两者合计相加。</dd>
+      </div>
+      <div>
+        <dt>20111 月末现金录入</dt>
+        <dd>自助设备填存取一体机余额，其余填柜台余额；录完与综合报表系统财管类日报表现金期末余额一致，一分不能差。</dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+</div>
+
+<!-- ===========================================================
+     视图五：密码修改（按月 / 按季到期提醒 + 修改记录）
+     =========================================================== -->
+<div class="view" id="view-pwd" hidden>
+
+<div class="pwd-layout">
+
+<div class="card tool-card">
+  <div class="card-content">
+    <h2 class="card-title">密码修改</h2>
+
+    <div class="pwd-tools">
+      <button type="button" class="chip" id="pwd-add">新增密码项</button>
+      <span class="pwd-saved" id="pwd-saved">数据自动保存在本机浏览器</span>
+      <span class="pwd-due">需尽快修改 <b id="pwd-due">0</b> 项</span>
+    </div>
+
+    <p class="pwd-hint">按月改的密码在到期前 10 天标红，按季改的在到期前 30 天标红；点「记录本次修改」把日期记为今天，并在下方「修改记录」里追加一行。</p>
+
+    <div class="pwd-list" id="pwd-list"></div>
+    <p class="pwd-empty" id="pwd-empty" hidden>还没有密码项，点上方「新增密码项」开始记录。</p>
+
+    <dl class="tool-rules">
+      <div>
+        <dt>到期日怎么算</dt>
+        <dd>上次修改日期 + 1 个月（按月）或 + 3 个月（按季）；日期对不上时取当月最后一天。</dd>
+      </div>
+      <div>
+        <dt>两个天数</dt>
+        <dd>已过去 = 今天 − 上次修改日期；距应改 = 应改日期 − 今天，负数表示已超期。</dd>
+      </div>
+      <div>
+        <dt>记录与保存</dt>
+        <dd>名称、周期、日期与每次的修改记录都保存在本机浏览器，下次打开仍可查看。</dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<div class="card tool-card">
+  <div class="card-content">
+    <h2 class="card-title">修改记录</h2>
+    <div class="pwd-tools">
+      <button type="button" class="chip" id="pwd-clear-hist">清空记录</button>
+      <span class="pwd-saved" id="pwd-hist-count">共 0 条</span>
+    </div>
+    <div class="pwd-hist" id="pwd-hist"></div>
+  </div>
+</div>
+
+</div><!-- /pwd-layout -->
+
+</div>
+
+<!-- ===========================================================
+     视图六：大额审批（对标《大额资金支付审批表》，右侧为录入区）
+     =========================================================== -->
+<div class="view" id="view-big" hidden>
+
+<div class="big-wrap">
+
+  <div class="big-tools">
+    <button type="button" class="big-print" id="big-print">打印审批表</button>
+    <button type="button" class="chip" id="big-clear">清空表单</button>
+    <span class="big-tip">本页不保存数据，刷新或关闭后需重新填写</span>
+  </div>
+
+  <div class="big-layout">
+
+    <div class="card tool-card big-sheet-card">
+      <div class="big-sheet" id="big-sheet" aria-label="大额资金支付审批表">
+
+        <div class="big-cell big-title" style="grid-area:1/1/2/10">大额资金支付审批表</div>
+
+        <div class="big-cell big-label" style="grid-area:2/1/3/2">账户性质</div>
+        <div class="big-cell big-opts" id="big-accttype" style="grid-area:2/2/3/10" aria-label="账户性质，点击选择">
+          <button type="button" class="big-opt" data-opt="基本账户">基本账户</button>
+          <button type="button" class="big-opt" data-opt="一般账户">一般账户</button>
+          <button type="button" class="big-opt" data-opt="专用账户">专用账户</button>
+          <button type="button" class="big-opt" data-opt="临时账户">临时账户</button>
+          <button type="button" class="big-opt" data-opt="储蓄结算账户">储蓄结算账户</button>
+          <button type="button" class="big-opt" data-opt="其它">其它</button>
+        </div>
+
+        <div class="big-cell big-label" style="grid-area:3/1/4/2">申请日期</div>
+        <div class="big-cell" style="grid-area:3/2/4/4">
+          <input class="big-in big-date" id="big-apply-date" type="text" autocomplete="off" spellcheck="false" placeholder="如 2026年11月10日" aria-label="申请日期">
+        </div>
+        <div class="big-cell big-label" style="grid-area:3/4/4/6">支付日期</div>
+        <div class="big-cell" style="grid-area:3/6/4/10">
+          <input class="big-in big-date" id="big-pay-date" type="text" autocomplete="off" spellcheck="false" placeholder="如 2026年11月10日" aria-label="支付日期">
+        </div>
+
+        <div class="big-cell big-label" style="grid-area:4/1/5/2">支付账户名称</div>
+        <div class="big-cell" style="grid-area:4/2/5/4"><span class="big-val" id="big-acct-name"></span></div>
+        <div class="big-cell big-label" style="grid-area:4/4/5/6">账　　号</div>
+        <div class="big-cell" style="grid-area:4/6/5/10"><span class="big-val nums" id="big-acct-no"></span></div>
+
+        <div class="big-cell big-label" style="grid-area:5/1/7/2">资金用途</div>
+        <div class="big-cell" style="grid-area:5/2/7/4"><span class="big-val" id="big-purpose"></span></div>
+        <div class="big-cell big-label" style="grid-area:5/4/6/6">办理人姓名</div>
+        <div class="big-cell" style="grid-area:5/6/6/8"><span class="big-val" id="big-person"></span></div>
+        <div class="big-cell big-label" style="grid-area:5/8/6/9">证件名称</div>
+        <div class="big-cell" style="grid-area:5/9/6/10"><span class="big-val" id="big-idname">身份证</span></div>
+
+        <div class="big-cell big-label" style="grid-area:6/4/7/6">证件号码</div>
+        <div class="big-cell" style="grid-area:6/6/7/10"><span class="big-val nums" id="big-person-id"></span></div>
+
+        <div class="big-cell big-label" style="grid-area:7/1/8/2">金额（大写）</div>
+        <div class="big-cell" style="grid-area:7/2/8/4"><span class="big-val upper" id="big-upper"></span></div>
+        <div class="big-cell big-label" style="grid-area:7/4/8/6">金额（小写）</div>
+        <div class="big-cell" style="grid-area:7/6/8/10"><span class="big-val nums" id="big-lower"></span></div>
+
+        <div class="big-cell big-label" style="grid-area:8/1/9/2">收款人名称</div>
+        <div class="big-cell" style="grid-area:8/2/9/10"><span class="big-val" id="big-payee"></span></div>
+
+        <div class="big-cell big-label" style="grid-area:9/1/10/2">账　　号</div>
+        <div class="big-cell" style="grid-area:9/2/10/4"><span class="big-val nums" id="big-payee-no"></span></div>
+        <div class="big-cell big-label" style="grid-area:9/4/10/6">开户银行</div>
+        <div class="big-cell" style="grid-area:9/6/10/10"><span class="big-val" id="big-bank"></span></div>
+
+        <div class="big-cell big-note" style="grid-area:10/1/11/10">以上由办理支付单位/个人填写、转账业务由经办机构代填；以下由经办机构填写</div>
+
+        <div class="big-cell big-label" style="grid-area:11/1/13/2">经办人签章：</div>
+        <div class="big-cell" style="grid-area:11/2/13/4"></div>
+        <div class="big-cell big-approve" style="grid-area:11/4/13/10">
+          <span>经办机构有权人审批意见：</span>
+          <span class="big-date-blank" id="big-approve-date"></span>
+        </div>
+
+        <div class="big-cell big-opinion" style="grid-area:13/1/14/10"><span>财务负责人或委托人审批意见：</span><span class="big-date-blank">年　　月　　日</span></div>
+        <div class="big-cell big-opinion" style="grid-area:14/1/15/10"><span>分管领导或委托人审批意见：</span><span class="big-date-blank">年　　月　　日</span></div>
+        <div class="big-cell big-opinion" style="grid-area:15/1/16/10"><span>主要领导或委托人审批意见：</span><span class="big-date-blank">年　　月　　日</span></div>
+
+      </div>
+      
+    </div>
+
+    <aside class="card tool-card big-aside" aria-label="审批表录入区">
+      <div class="card-content">
+        <h2 class="card-title">录入区</h2>
+        <div class="big-fields" id="big-fields"></div>
+      </div>
+    </aside>
+
+  </div><!-- /big-layout -->
+
+</div>
+
+</div>
+
+<!-- ===========================================================
+     视图：贷款计算（等额本息 / 等额本金，金额单位万元，期限按月）
+     =========================================================== -->
+<div class="view" id="view-loan" hidden>
+
+<div class="card tool-card">
+  <div class="card-content">
+    <h2 class="card-title">贷款计算</h2>
+
+    <div class="tool-mode" role="tablist" aria-label="还款方式">
+      <button type="button" role="tab" id="loanmode-flat" data-loanmode="flat" aria-selected="true" aria-controls="loan-panel">等额等息</button>
+      <button type="button" role="tab" id="loanmode-eq" data-loanmode="eq" aria-selected="false" aria-controls="loan-panel">等额本息</button>
+      <button type="button" role="tab" id="loanmode-ep" data-loanmode="ep" aria-selected="false" aria-controls="loan-panel">等额本金</button>
+      <button type="button" role="tab" id="loanmode-io" data-loanmode="io" aria-selected="false" aria-controls="loan-panel">先息后本</button>
+    </div>
+
+    <div class="tool-mode" role="tablist" id="loan-basis" aria-label="结息周期" hidden>
+      <button type="button" role="tab" id="loanbasis-month" data-loanbasis="month" aria-selected="true" aria-controls="loan-panel">按月</button>
+      <button type="button" role="tab" id="loanbasis-quarter" data-loanbasis="quarter" aria-selected="false" aria-controls="loan-panel">按季</button>
+    </div>
+
+    <div class="big-layout" id="loan-panel">
+      <div class="big-fields">
+        <div class="big-field">
+          <label class="big-field-key" for="loan-amount">贷款金额（万元）</label>
+          <input id="loan-amount" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="big-field">
+          <label class="big-field-key" for="loan-months">贷款期限（月）</label>
+          <input id="loan-months" type="text" inputmode="numeric" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="big-field">
+          <label class="big-field-key" for="loan-rate">年利率（单利，%）</label>
+          <input id="loan-rate" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="big-fields">
+        <div class="result" aria-live="polite">
+          <div class="result-head">
+            <span class="result-key">共需还款</span>
+          </div>
+          <p class="result-big" id="loan-pay">—</p>
+          <div class="result-meta">
+            <span>贷款金额 <b id="loan-principal">—</b></span>
+            <span>贷款利息 <b id="loan-interest">—</b></span>
+            <span>贷款期数 <b id="loan-periods">—</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="card-title">还款计划</h2>
+    <div class="big-fields">
+      <table class="cash-table loan-table" aria-label="还款计划">
+        <thead>
+          <tr><th scope="col">期数</th><th scope="col">月供（元）</th><th scope="col">本金（元）</th><th scope="col">利息（元）</th></tr>
+        </thead>
+        <tbody id="loan-schedule"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ===========================================================
+     视图：诉讼计算（按诉讼标的额分段累计案件受理费）
+     =========================================================== -->
+<div class="view" id="view-lit" hidden>
+
+<div class="card tool-card">
+  <div class="card-content">
+    <h2 class="card-title">诉讼计算</h2>
+
+    <div class="big-layout" id="lit-panel">
+      <div class="big-fields">
+        <div class="big-field">
+          <label class="big-field-key" for="lit-amount">诉讼标的额（元）</label>
+          <input id="lit-amount" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="big-fields">
+        <div class="result" aria-live="polite">
+          <div class="result-head">
+            <span class="result-key">共需缴纳</span>
+          </div>
+          <p class="result-big" id="lit-pay">—</p>
+          <div class="result-meta">
+            <span>受理费 <b id="lit-accept">—</b></span>
+            <span>执行费 <b id="lit-exec">—</b></span>
+            <span>保全费 <b id="lit-preserve">—</b></span>
+            <span>减半费用 <b id="lit-half">—</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ===========================================================
+     视图：超级书签（书签小工具，拖动到浏览器书签栏后使用）
+     =========================================================== -->
+<div class="view" id="view-bm" hidden>
+
+<div class="card bm-card">
+  <div class="card-content">
+    <h2 class="card-title">超级书签</h2>
+    <p class="bm-intro">不用安装任何插件，把每一项右侧的树叶图标拖到浏览器书签栏，即可获得对应的小工具：解锁网页右键与复制限制、显示星号密码、网页自由编辑、网页标注测距。使用时在任意网页点击对应书签即可生效，均为本页自带的脚本，无需联网下载。</p>
+    <div class="bm-list" id="bm-list"></div>
+    <div class="bm-note">
+      <p><strong>使用方法</strong></p>
+      <p>1、按住某一项右侧的树叶图标，拖到浏览器书签栏后松开，即生成一个书签，书签名就是该功能名称（如「解锁网页限制」）。</p>
+      <p>2、打开需要处理的网页，点击刚才那个书签，功能立即生效。</p>
+      <p>3、若浏览器书签栏已隐藏，先按 Ctrl+Shift+B（Chrome/Edge）显示书签栏；不便拖动时可点「复制代码」，在书签网址一栏粘贴以 javascript: 开头的整段代码。</p>
+      <p>提示：部分网站限制极严（如在 iframe 内嵌页面），书签可能无效，可换用浏览器扩展；显示星号密码只对当前页面可见的密码框有效。</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<button type="button" class="side-fab side-min" id="side-toggle" aria-controls="side-tabs" aria-expanded="true" aria-label="收起页签" title="收起页签">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></path></svg>
+</button>
+
+<button type="button" class="side-fab" id="side-fab" aria-controls="side-tabs" aria-label="显示页签" title="显示页签" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="16" x2="19" y2="16"/></g></svg>
+</button>
+
+<button type="button" class="to-top" id="to-top" aria-label="回到顶部" title="回到顶部">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 7-1.4 1.4L13 8.8V19h-2V8.8l-4.6 4.6L5 12z" fill="currentColor"/></svg>
+</button>
+
+<footer>
+  <p>© 2026 UME</p>
+  <div class="data-tools" role="group" aria-label="数据备份">
+    <button type="button" class="data-btn" id="data-export">导出数据</button>
+    <button type="button" class="data-btn" id="data-import">导入数据</button>
+    <input type="file" id="data-file" accept=".json,application/json" hidden>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= 数字字符表 ================= */
+  var D_SMALL = ['零','一','二','三','四','五','六','七','八','九'];
+  var D_UPPER = ['零','壹','贰','叁','肆','伍','陆','柒','捌','玖'];
+  var U_SMALL = ['','十','百','千'];
+  var U_UPPER = ['','拾','佰','仟'];
+  var GROUP_NAME = ['','万','亿','万亿'];
+
+  function secCN(v, st) {
+    var s = String(v);
+    while (s.length < 4) s = '0' + s;
+    var out = '', zero = false, started = false;
+    for (var i = 0; i < 4; i++) {
+      var d = +s.charAt(i);
+      if (d === 0) {
+        if (started) zero = true;
+      } else {
+        if (zero) out += '零';
+        zero = false;
+        started = true;
+        out += st.D[d] + st.U[3 - i];
+      }
+    }
+    return out;
+  }
+
+  function intCN(intStr, style) {
+    var st = style === 'upper'
+      ? { D: D_UPPER, U: U_UPPER }
+      : { D: D_SMALL, U: U_SMALL };
+    var s = String(intStr).replace(/^0+/, '');
+    if (s === '') return '零';
+    if (s.length > 12) return null;
+
+    var groups = [], rest = s;
+    while (rest.length > 0) {
+      groups.unshift(rest.slice(-4));
+      rest = rest.slice(0, -4);
+    }
+
+    var out = '', needZero = false;
+    for (var i = 0; i < groups.length; i++) {
+      var gIdx = groups.length - 1 - i;
+      var v = parseInt(groups[i], 10);
+      if (v === 0) {
+        if (out) needZero = true;
+        continue;
+      }
+      if (out && (needZero || v < 1000)) out += '零';
+      needZero = false;
+      out += secCN(v, st) + (gIdx > 0 ? GROUP_NAME[gIdx] : '');
+    }
+    if (style !== 'upper' && out.slice(0, 2) === '一十') out = out.slice(1);
+    return out;
+  }
+
+  /* ================= 金额大写 ================= */
+  function incStr(s) {
+    var arr = String(s).split('');
+    var i = arr.length - 1;
+    while (i >= 0) {
+      if (arr[i] === '9') { arr[i] = '0'; i--; }
+      else { arr[i] = String(+arr[i] + 1); break; }
+    }
+    if (i < 0) arr.unshift('1');
+    return arr.join('');
+  }
+
+  function normalize(intStr, decStr) {
+    intStr = intStr === '' ? '0' : intStr;
+    decStr = decStr || '';
+    var cents = (decStr.slice(0, 2) + '00').slice(0, 2);
+    var carry = (decStr.length > 2 && decStr.charAt(2) >= '5') ? 1 : 0;
+    var c = parseInt(cents, 10) + carry;
+    if (c >= 100) { c -= 100; intStr = incStr(intStr); }
+    cents = String(c);
+    while (cents.length < 2) cents = '0' + cents;
+    return {
+      yuan: intStr.replace(/^0+(?=\d)/, ''),
+      jiao: +cents.charAt(0),
+      fen: +cents.charAt(1),
+      rounded: decStr.length > 2 && /[1-9]/.test(decStr.slice(2))
+    };
+  }
+
+  function toRMB(info, neg) {
+    var yuan = info.yuan, jiao = info.jiao, fen = info.fen;
+    if (yuan === '0' && jiao === 0 && fen === 0) return '零元整';
+    var out = '';
+    if (yuan !== '0') out += intCN(yuan, 'upper') + '元';
+    if (jiao === 0 && fen === 0) {
+      out += '整';
+    } else if (jiao === 0) {
+      out += (yuan !== '0' ? '零' : '') + D_UPPER[fen] + '分';
+    } else if (fen === 0) {
+      out += D_UPPER[jiao] + '角整';
+    } else {
+      out += D_UPPER[jiao] + '角' + D_UPPER[fen] + '分';
+    }
+    return (neg ? '负' : '') + out;
+  }
+
+  function fmtLower(info, neg) {
+    var y = info.yuan.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (neg ? '-' : '') + '¥' + y + '.' + String(info.jiao) + String(info.fen);
+  }
+
+  function toHalfWidth(s) {
+    return s.replace(/[\uFF10-\uFF19]/g, function (c) {
+      return String.fromCharCode(c.charCodeAt(0) - 0xFEE0);
+    }).replace(/\uFF0E/g, '.').replace(/\uFF0C/g, ',');
+  }
+
+  function convertAmount(raw) {
+    var s = toHalfWidth(String(raw)).trim().replace(/[¥￥\s,]/g, '').replace(/[元圆整]$/, '');
+    if (!s) return { state: 'empty' };
+    var neg = false;
+    if (s.charAt(0) === '-') { neg = true; s = s.slice(1); }
+    if (s === '' || s === '.' || !/^\d*\.?\d*$/.test(s)) {
+      return { state: 'error', msg: '只能输入数字，例如 1234.56' };
+    }
+    var parts = s.split('.');
+    var ip = parts[0] === '' ? '0' : parts[0];
+    var dp = parts.length > 1 ? parts[1] : '';
+    if (ip.replace(/^0+/, '').length > 12) {
+      return { state: 'error', msg: '金额超出范围，最大支持 9999 亿（12 位以内）' };
+    }
+    var info = normalize(ip, dp);
+    if (info.yuan.length > 12) {
+      return { state: 'error', msg: '金额超出范围，最大支持 9999 亿（12 位以内）' };
+    }
+    if (info.yuan === '0' && info.jiao === 0 && info.fen === 0) neg = false;
+    return {
+      state: 'ok',
+      upper: toRMB(info, neg),
+      lower: fmtLower(info, neg),
+      digits: info.yuan === '0' ? 0 : info.yuan.length,
+      rounded: info.rounded
+    };
+  }
+
+  /* ================= 中文数字解析 ================= */
+  var CN_DIG = {
+    '零':0,'〇':0,'一':1,'壹':1,'二':2,'贰':2,'两':2,
+    '三':3,'叁':3,'四':4,'肆':4,'五':5,'伍':5,
+    '六':6,'陆':6,'七':7,'柒':7,'八':8,'捌':8,'九':9,'玖':9
+  };
+  var CN_UNIT = { '十':10,'拾':10,'百':100,'佰':100,'千':1000,'仟':1000 };
+
+  function parseSection(str) {
+    var val = 0, num = 0;
+    for (var i = 0; i < str.length; i++) {
+      var ch = str.charAt(i);
+      if (CN_DIG[ch] !== undefined) {
+        num = CN_DIG[ch];
+      } else if (CN_UNIT[ch]) {
+        val += (num === 0 ? 1 : num) * CN_UNIT[ch];
+        num = 0;
+      } else {
+        return NaN;
+      }
+    }
+    return val + num;
+  }
+
+  function parseWan(str) {
+    var idx = str.indexOf('万');
+    if (idx === -1) return parseSection(str);
+    var a = str.slice(0, idx), b = str.slice(idx + 1);
+    var av = a === '' ? 1 : parseSection(a);
+    var bv = b === '' ? 0 : parseSection(b);
+    if (isNaN(av) || isNaN(bv)) return NaN;
+    return av * 10000 + bv;
+  }
+
+  function parseCN(raw) {
+    var s = String(raw).replace(/[,\s]/g, '').replace(/[人民币元圆整正]/g, '');
+    if (!s) return NaN;
+    var idx = s.indexOf('亿');
+    if (idx !== -1) {
+      var a = s.slice(0, idx), b = s.slice(idx + 1);
+      var av = a === '' ? 1 : parseWan(a);
+      var bv = b === '' ? 0 : parseWan(b);
+      if (isNaN(av) || isNaN(bv)) return NaN;
+      return av * 1e8 + bv;
+    }
+    return parseWan(s);
+  }
+
+  function convertCN(raw) {
+    var s = String(raw).replace(/[,\s]/g, '');
+    if (!s) return { state: 'empty' };
+    var value;
+    if (/^[0-9]+$/.test(s)) value = Number(s);
+    else value = parseCN(s);
+    if (isNaN(value) || !isFinite(value)) {
+      return { state: 'error', msg: '无法识别，请检查是否含有不支持的字符' };
+    }
+    if (!Number.isInteger(value)) {
+      return { state: 'error', msg: '请输入整数，小数请用「金额大写」' };
+    }
+    if (value > 999999999999) {
+      return { state: 'error', msg: '数字过大，最大支持 9999 亿' };
+    }
+    var digits = String(value);
+    var info = normalize(digits, '');
+    return {
+      state: 'ok',
+      digits: digits.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      upper: intCN(digits, 'upper'),
+      small: intCN(digits, 'small'),
+      money: toRMB(info, false)
+    };
+  }
+
+  /* ================= 侧栏显示/隐藏 ================= */
+  (function initSidebar() {
+    var shell = document.querySelector('.shell');
+    var btn = document.getElementById('side-toggle');
+    var fab = document.getElementById('side-fab');
+    var tabsBox = document.getElementById('side-tabs');
+    if (!shell || !btn || !tabsBox || !fab) return;
+
+    var KEY = 'ume-side-collapsed-v1';
+    var collapsed = false;
+    try { collapsed = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    function apply(state) {
+      collapsed = state;
+      shell.classList.toggle('collapsed', collapsed);
+      btn.setAttribute('aria-expanded', String(!collapsed));
+      tabsBox.setAttribute('aria-hidden', String(collapsed));
+      btn.hidden = collapsed;
+      fab.hidden = !collapsed;
+    }
+
+    apply(collapsed);
+
+    function persist() {
+      try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
+    }
+
+    btn.addEventListener('click', function () {
+      apply(!collapsed);
+      persist();
+    });
+
+    fab.addEventListener('click', function () {
+      apply(false);
+      persist();
+    });
+  })();
+
+  /* ================= 视图切换 ================= */
+  var VIEWS = ['nav', 'tool', 'cash', 'pwd', 'big', 'loan', 'lit', 'bm'];
+  var tabs = document.querySelectorAll('.tabs button');
+
+  function showView(name) {
+    if (VIEWS.indexOf(name) === -1) name = 'nav';
+    VIEWS.forEach(function (v) {
+      document.getElementById('view-' + v).hidden = v !== name;
+    });
+    tabs.forEach(function (b) {
+      b.setAttribute('aria-selected', String(b.dataset.view === name));
+    });
+    /* 窄屏页签可横向滚动，保证选中的那个始终露出来 */
+    try {
+      var selBtn = document.getElementById('tab-' + name);
+      if (selBtn && tabsWrap.scrollHeight > tabsWrap.clientHeight + 4) {
+        var rb = selBtn.getBoundingClientRect(), rw = tabsWrap.getBoundingClientRect();
+        if (rb.top < rw.top) tabsWrap.scrollTop -= (rw.top - rb.top) + 8;
+        else if (rb.bottom > rw.bottom) tabsWrap.scrollTop += (rb.bottom - rw.bottom) + 8;
+      }
+    } catch (e) {}
+    try {
+      if (name === 'tool') location.hash = '#tool';
+      else if (name === 'cash') location.hash = '#cash';
+            else if (name === 'pwd') location.hash = '#pwd';
+      else if (name === 'big') location.hash = '#big';
+      else if (name === 'loan') location.hash = '#loan';
+      else if (name === 'lit') location.hash = '#lit';
+      else if (name === 'bm') location.hash = '#bm';
+      else location.hash = '';
+    } catch (e) {}
+  }
+
+  tabs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (tabSuppressClick) return;
+      showView(b.dataset.view);
+      scrollViewTop(b.dataset.view);
+    });
+  });
+
+  /* ================= 页签排序 ================= */
+  var TAB_ORDER_KEY = 'ume-tab-order-v1';
+  var tabsWrap = document.querySelector('.tabs');
+  var tabSuppressClick = false;
+
+  tabs.forEach(function (b) { if (!b.title) b.title = '按住拖动可调整页签顺序'; });
+
+  function tabOrderNow() {
+    return Array.prototype.map.call(tabsWrap.querySelectorAll('button'), function (b) {
+      return b.dataset.view;
+    });
+  }
+
+  function applyTabOrder(order) {
+    if (!order || !order.length) return;
+    var byView = {}, used = {};
+    Array.prototype.forEach.call(tabsWrap.querySelectorAll('button'), function (b) {
+      byView[b.dataset.view] = b;
+    });
+    order.forEach(function (v) {
+      if (byView[v] && !used[v]) { tabsWrap.appendChild(byView[v]); used[v] = 1; }
+    });
+    Object.keys(byView).forEach(function (v) {
+      if (!used[v]) tabsWrap.appendChild(byView[v]);
+    });
+  }
+
+  function restoreTabOrder() {
+    var st = storeGet(TAB_ORDER_KEY);
+    if (st && st.order && st.order.length) applyTabOrder(st.order);
+  }
+
+  function saveTabOrder() {
+    storeSet(TAB_ORDER_KEY, { v: 1, order: tabOrderNow() });
+  }
+
+  var tabDrag = null;
+
+  tabsWrap.addEventListener('pointerdown', function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.tabs button') : null;
+    if (!btn) return;
+    if (e.button !== undefined && e.button !== 0) return;
+    tabDrag = { btn: btn, x0: e.clientX, y0: e.clientY, moved: false };
+  });
+
+  document.addEventListener('pointermove', function (e) {
+    if (!tabDrag) return;
+    var dx = e.clientX - tabDrag.x0, dy = e.clientY - tabDrag.y0;
+    if (!tabDrag.moved) {
+      if (Math.abs(dx) < 12 && Math.abs(dy) < 12) return;
+      tabDrag.moved = true;
+      tabDrag.btn.classList.add('dragging');
+    }
+    if (e.cancelable) e.preventDefault();
+    var over = document.elementFromPoint(e.clientX, e.clientY);
+    var target = over && over.closest ? over.closest('.tabs button') : null;
+    if (!target || target === tabDrag.btn) return;
+    var r = target.getBoundingClientRect();
+    var vertical = getComputedStyle(tabsWrap).flexDirection === 'column';
+    var before = vertical ? e.clientY < r.top + r.height / 2 : e.clientX < r.left + r.width / 2;
+    tabsWrap.insertBefore(tabDrag.btn, before ? target : target.nextSibling);
+  });
+
+  function endTabDrag() {
+    if (!tabDrag) return;
+    var moved = tabDrag.moved;
+    tabDrag.btn.classList.remove('dragging');
+    tabDrag = null;
+    if (moved) {
+      tabSuppressClick = true;
+      setTimeout(function () { tabSuppressClick = false; }, 350);
+      saveTabOrder();
+      toast('页签顺序已保存');
+    }
+  }
+
+  document.addEventListener('pointerup', endTabDrag);
+  document.addEventListener('pointercancel', endTabDrag);
+
+  /* ================= 网址导航区块排序 ================= */
+  var NAV_ORDER_KEY = 'ume-nav-order-v1';
+  var navView = document.getElementById('view-nav');
+  var navHotCard = document.getElementById('hot-card');
+  var navSuppressClick = false;
+
+  function navCards() {
+    return Array.prototype.filter.call(navView.querySelectorAll('.card'), function (c) {
+      return c.parentElement === navView && c !== navHotCard;
+    });
+  }
+
+  function navOrderNow() {
+    return navCards().map(function (c) { return c.dataset.navKey; });
+  }
+
+  function saveNavOrder() {
+    storeSet(NAV_ORDER_KEY, { v: 1, order: navOrderNow() });
+  }
+
+  function applyNavOrder(order) {
+    if (!order || !order.length) return;
+    var byKey = {}, used = {};
+    navCards().forEach(function (c) { byKey[c.dataset.navKey] = c; });
+    order.forEach(function (k) {
+      if (byKey[k] && !used[k]) { navView.appendChild(byKey[k]); used[k] = 1; }
+    });
+    navCards().forEach(function (c) {
+      if (!used[c.dataset.navKey]) navView.appendChild(c);
+    });
+  }
+
+  function initNavOrder() {
+    if (!navView) return;
+    navCards().forEach(function (c, i) {
+      c.dataset.navKey = c.dataset.navKey || ('c' + i);
+      c.classList.add('nav-sortable');
+      var t = c.querySelector('.card-title');
+      if (!t) return;
+      if (!t.title) t.title = '按住标题拖动，可调整本区顺序';
+      if (!t.querySelector('.card-grip')) {
+        var grip = document.createElement('i');
+        grip.className = 'card-grip';
+        grip.setAttribute('aria-hidden', 'true');
+        grip.textContent = '≡';
+        t.appendChild(grip);
+      }
+    });
+    var st = storeGet(NAV_ORDER_KEY);
+    if (st && st.order && st.order.length) applyNavOrder(st.order);
+  }
+
+  var navDrag = null;
+
+  navView && navView.addEventListener('pointerdown', function (e) {
+    var title = e.target && e.target.closest ? e.target.closest('.card-title') : null;
+    if (!title) return;
+    if (e.target.closest('button')) return;
+    var card = title.closest('.card');
+    if (!card || card === navHotCard) return;
+    if (e.button !== undefined && e.button !== 0) return;
+    navDrag = { card: card, x0: e.clientX, y0: e.clientY, moved: false };
+  });
+
+  document.addEventListener('pointermove', function (e) {
+    if (!navDrag) return;
+    var dx = e.clientX - navDrag.x0, dy = e.clientY - navDrag.y0;
+    if (!navDrag.moved) {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      navDrag.moved = true;
+      navDrag.card.classList.add('nav-dragging');
+    }
+    if (e.cancelable) e.preventDefault();
+    var over = document.elementFromPoint(e.clientX, e.clientY);
+    var target = over && over.closest ? over.closest('.card') : null;
+    if (!target || target === navDrag.card) return;
+    if (target !== navView && target.parentElement !== navView) target = target.closest('.card');
+    if (!target || target === navDrag.card) return;
+    if (target === navHotCard) {
+      var first = navCards()[0];
+      if (first && first !== navDrag.card) navView.insertBefore(navDrag.card, first);
+      return;
+    }
+    var r = target.getBoundingClientRect();
+    var sameRow = e.clientY >= r.top && e.clientY <= r.bottom;
+    var before = sameRow ? (e.clientX < r.left + r.width / 2) : (e.clientY < r.top + r.height / 2);
+    navView.insertBefore(navDrag.card, before ? target : target.nextSibling);
+  });
+
+  function endNavDrag() {
+    if (!navDrag) return;
+    var moved = navDrag.moved;
+    navDrag.card.classList.remove('nav-dragging');
+    navDrag = null;
+    if (moved) {
+      navSuppressClick = true;
+      setTimeout(function () { navSuppressClick = false; }, 350);
+      saveNavOrder();
+      toast('区块顺序已保存');
+    }
+  }
+
+  document.addEventListener('pointerup', endNavDrag);
+  document.addEventListener('pointercancel', endNavDrag);
+
+  /* 浏览器前进/后退或直接改地址栏 hash 时同步视图 */
+  window.addEventListener('hashchange', function () {
+    var h = (location.hash || '').replace('#', '');
+    if (VIEWS.indexOf(h) === -1) h = 'nav';
+    if (document.getElementById('view-' + h).hidden) showView(h);
+  });
+
+  /* ================= 提示 ================= */
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1600);
+  }
+
+  /* ================= 金额面板 ================= */
+  var inputMoney = document.getElementById('input-money');
+  var errorMoney = document.getElementById('error-money');
+  var resultMoney = document.getElementById('result-money');
+  var elUpper = document.getElementById('upper');
+  var elLower = document.getElementById('lower');
+  var elMeta = document.getElementById('meta');
+
+  function renderMoney() {
+    var r = convertAmount(inputMoney.value);
+    var ok = r.state === 'ok';
+
+    resultMoney.classList.toggle('is-empty', !ok);
+    errorMoney.textContent = r.state === 'error' ? r.msg : '';
+    elUpper.textContent = ok ? r.upper : '—';
+    elLower.textContent = ok ? r.lower : '—';
+    elMeta.textContent = !ok
+      ? (r.state === 'empty' ? '等待输入' : '无法转换')
+      : (r.digits === 0 ? '不足一元' : '整数 ' + r.digits + ' 位') +
+        (r.rounded ? ' · 四舍五入到分' : '');
+  }
+
+  /* ================= 中文数字面板 ================= */
+  var inputCN = document.getElementById('input-cn');
+  var errorCN = document.getElementById('error-cn');
+  var cnEls = {
+    upper: document.getElementById('cn-upper'),
+    small: document.getElementById('cn-small'),
+    num: document.getElementById('cn-num'),
+    money: document.getElementById('cn-money')
+  };
+  var cnRows = {
+    upper: document.getElementById('row-upper'),
+    small: document.getElementById('row-small'),
+    num: document.getElementById('row-num'),
+    money: document.getElementById('row-money')
+  };
+
+  function setRow(key, text, filled) {
+    cnEls[key].textContent = text;
+    cnRows[key].classList.toggle('is-empty', !filled);
+  }
+
+  function renderCN() {
+    var r = convertCN(inputCN.value);
+    var ok = r.state === 'ok';
+
+    errorCN.textContent = r.state === 'error' ? r.msg : '';
+    setRow('upper', ok ? r.upper : '—', ok);
+    setRow('small', ok ? r.small : '—', ok);
+    setRow('num', ok ? r.digits : '—', ok);
+    setRow('money', ok ? r.money : '—', ok);
+  }
+
+  /* ================= 配钞工具 ================= */
+  /* 券别按「分」记，避开 0.1×7 这类浮点尾差 */
+  var DENOMS = [
+    { cents: 10000, label: '100 元', note: '' },
+    { cents: 5000,  label: '50 元',  note: '' },
+    { cents: 2000,  label: '20 元',  note: '' },
+    { cents: 1000,  label: '10 元',  note: '' },
+    { cents: 500,   label: '5 元',   note: '' },
+    { cents: 100,   label: '1 元',   note: '' },
+    { cents: 50,    label: '5 角',   note: '' },
+    { cents: 10,    label: '1 角',   note: '' },
+    { cents: 1,     label: '1 分',   note: '' }
+  ];
+
+  var cashTbody = document.getElementById('cash-rows');
+  var cashRows = [];
+
+  DENOMS.forEach(function (d) {
+    var tr = document.createElement('tr');
+    var inputId = 'cash-c' + d.cents;
+    tr.innerHTML =
+      '<td><span class="cash-name">' + d.label + '</span></td>' +
+      '<td><input class="cash-count" id="' + inputId + '" type="text" inputmode="numeric" ' +
+      'autocomplete="off" spellcheck="false" placeholder="0" maxlength="8" aria-label="' +
+      d.label + '张数"></td>' +
+      '<td class="cash-sub zero">¥0.00</td>';
+
+    var input = tr.querySelector('.cash-count');
+    var sub = tr.querySelector('.cash-sub');
+    input.addEventListener('input', function () {
+      var clean = input.value.replace(/[^\d]/g, '').slice(0, 8);
+      if (clean !== input.value) input.value = clean;
+      renderCash();
+    });
+    cashTbody.appendChild(tr);
+    cashRows.push({ cents: d.cents, input: input, sub: sub });
+  });
+
+  var cashTotalEl = document.getElementById('cash-total');
+  var cashUpperEl = document.getElementById('cash-upper');
+  var cashCountsEl = document.getElementById('cash-counts');
+  var cashTotalSub = document.getElementById('cash-total-sub');
+  var cashTotalCount = document.getElementById('cash-total-count');
+  var cashExpect = document.getElementById('cash-expect');
+  var cashError = document.getElementById('cash-error');
+  var cashDiff = document.getElementById('cash-diff');
+  var cashTag = document.getElementById('cash-tag');
+
+  function fmtCents(c) {
+    var neg = c < 0;
+    if (neg) c = -c;
+    var yuan = Math.floor(c / 100), fen = c % 100;
+    var y = String(yuan).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (neg ? '-' : '') + '¥' + y + '.' + (fen < 10 ? '0' : '') + fen;
+  }
+
+  function upperCents(c) {
+    var yuan = Math.floor(c / 100), fen = c % 100;
+    return toRMB({
+      yuan: String(yuan).replace(/^0+(?=\d)/, '') || '0',
+      jiao: Math.floor(fen / 10),
+      fen: fen % 10
+    }, false);
+  }
+
+  function parseExpect(raw) {
+    var s = toHalfWidth(String(raw)).trim().replace(/[¥￥\s,]/g, '').replace(/[元圆整]$/, '');
+    if (!s) return { state: 'empty' };
+    if (!/^\d{1,12}(\.\d{1,2})?$/.test(s)) {
+      return { state: 'error', msg: '请输入金额，最多两位小数，如 392341.76' };
+    }
+    var parts = s.split('.');
+    var dec = ((parts[1] || '') + '00').slice(0, 2);
+    return { state: 'ok', cents: Number(parts[0]) * 100 + Number(dec) };
+  }
+
+  function renderCash() {
+    var total = 0, count = 0;
+    cashRows.forEach(function (r) {
+      var n = parseInt(r.input.value, 10);
+      if (!isFinite(n) || n < 0) n = 0;
+      var sub = n * r.cents;
+      r.sub.textContent = fmtCents(sub);
+      r.sub.classList.toggle('zero', sub === 0);
+      total += sub;
+      count += n;
+    });
+
+    cashTotalEl.textContent = fmtCents(total);
+    cashUpperEl.textContent = upperCents(total);
+    cashCountsEl.textContent = '共 ' + count.toLocaleString() + ' 张 · ' + DENOMS.length + ' 种券别';
+    cashTotalSub.textContent = fmtCents(total);
+    cashTotalCount.textContent = count.toLocaleString() + ' 张';
+    saveCashState();
+
+    var ex = parseExpect(cashExpect.value);
+    cashError.textContent = ex.state === 'error' ? ex.msg : '';
+    cashDiff.className = 'diff-val';
+    cashTag.className = 'diff-tag';
+
+    if (ex.state !== 'ok') {
+      cashDiff.textContent = '—';
+      cashDiff.classList.add('none');
+      cashTag.textContent = '待比对';
+      return;
+    }
+
+    var diff = total - ex.cents;
+    cashDiff.textContent = (diff > 0 ? '+' : '') + fmtCents(diff);
+    if (diff === 0) {
+      cashDiff.classList.add('ok');
+      cashTag.classList.add('ok');
+      cashTag.textContent = '相符';
+    } else {
+      cashDiff.classList.add('bad');
+      cashTag.classList.add('bad');
+      cashTag.textContent = diff > 0 ? '长款' : '短款';
+    }
+  }
+
+  cashExpect.addEventListener('input', renderCash);
+
+
+  var CASH_SAMPLE = { 10000: 3849, 5000: 124, 2000: 19, 1000: 58, 500: 36, 100: 92, 50: 18, 10: 7, 1: 6 };
+
+  document.getElementById('cash-sample').addEventListener('click', function () {
+    cashRows.forEach(function (r) { r.input.value = String(CASH_SAMPLE[r.cents] || 0); });
+    cashExpect.value = '392341.76';
+    renderCash();
+    toast('已填入示例数据');
+  });
+
+  document.getElementById('cash-clear').addEventListener('click', function () {
+    cashRows.forEach(function (r) { r.input.value = ''; });
+    renderCash();
+    toast('已清空张数');
+  });
+
+  /* ================= 本机存储 ================= */
+  var STORE_OK = (function () {
+    try {
+      localStorage.setItem('__ume_probe', '1');
+      localStorage.removeItem('__ume_probe');
+      return true;
+    } catch (e) { return false; }
+  })();
+  var CASH_KEY = 'ume-cash-v1';
+
+  function storeGet(key) {
+    if (!STORE_OK) return null;
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function storeSet(key, obj) {
+    if (!STORE_OK) return false;
+    try {
+      localStorage.setItem(key, JSON.stringify(obj));
+      return true;
+    } catch (e) { return false; }
+  }
+
+  /* ---------- 配钞数据存取 ---------- */
+  function saveCashState() {
+    var counts = {};
+    cashRows.forEach(function (r) { counts[r.cents] = r.input.value; });
+    storeSet(CASH_KEY, { v: 1, counts: counts, expect: cashExpect.value });
+  }
+
+  function restoreCashState() {
+    var st = storeGet(CASH_KEY);
+    if (!st || !st.counts) return;
+    cashRows.forEach(function (r) {
+      var v = st.counts[r.cents];
+      r.input.value = (v === undefined || v === null) ? '' : String(v);
+    });
+    cashExpect.value = st.expect || '';
+  }
+
+  /* ================= 密码修改 ================= */
+  var PWD_KEY = 'ume-pwd-v1';
+  var pwdListEl = document.getElementById('pwd-list');
+  var pwdEmptyEl = document.getElementById('pwd-empty');
+  var pwdSavedEl = document.getElementById('pwd-saved');
+  var pwdDueEl = document.getElementById('pwd-due');
+  var pwdHistEl = document.getElementById('pwd-hist');
+  var pwdHistCountEl = document.getElementById('pwd-hist-count');
+  var pwdItems = [];
+  var pwdHist = [];
+  var pwdRecs = [];
+
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function parseDay(s) {
+    var m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(String(s || '').replace(/\./g, '-').replace(/\//g, '-'));
+    if (!m) return null;
+    var y = Number(m[1]), mo = Number(m[2]), dd = Number(m[3]);
+    if (mo < 1 || mo > 12 || dd < 1 || dd > 31) return null;
+    var d = new Date(y, mo - 1, dd);
+    if (d.getFullYear() !== y || d.getMonth() !== mo - 1 || d.getDate() !== dd) return null;
+    return d;
+  }
+  function fmtDay(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function addMonths(d, n) {
+    var first = new Date(d.getFullYear(), d.getMonth() + n, 1);
+    var lastDay = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+    return new Date(first.getFullYear(), first.getMonth(), Math.min(d.getDate(), lastDay));
+  }
+  function dayDiff(a, b) {
+    var ua = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    var ub = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+    return Math.round((ub - ua) / 86400000);
+  }
+
+  function pwdStatus(it) {
+    var last = parseDay(it.last);
+    var today = parseDay(todayStr());
+    if (!last) return { state: 'empty' };
+    var months = it.cycle === 'q' ? 3 : 1;
+    var warn = it.cycle === 'q' ? 30 : 10;
+    var due = addMonths(last, months);
+    var elapsed = dayDiff(last, today);
+    var left = dayDiff(today, due);
+    var state = left < 0 ? 'over' : (left <= warn ? 'soon' : 'ok');
+    return { state: state, due: due, elapsed: elapsed, left: left, warn: warn };
+  }
+
+  function cycleLabel(c) { return c === 'q' ? '按季' : '按月'; }
+
+  function buildPwdItem(it) {
+    var card = document.createElement('div');
+    card.className = 'pwd-item';
+    card.innerHTML =
+      '<div class="pwd-head">' +
+        '<input class="pwd-name" type="text" autocomplete="off" spellcheck="false" placeholder="密码名称，如 网银登录密码" aria-label="密码名称">' +
+        '<div class="pwd-seg">' +
+          '<button type="button" data-c="m">按月</button>' +
+          '<button type="button" data-c="q">按季</button>' +
+        '</div>' +
+        '<button type="button" class="pwd-del">删除</button>' +
+      '</div>' +
+      '<div class="pwd-body">' +
+        '<div class="pwd-facts">' +
+          '<dl class="pwd-fact"><dt>状态</dt><dd class="v-status mute">未记录</dd></dl>' +
+          '<dl class="pwd-fact"><dt>已过去</dt><dd class="v-elapsed mute">—</dd></dl>' +
+          '<dl class="pwd-fact"><dt>距应改</dt><dd class="v-left mute">—</dd></dl>' +
+          '<dl class="pwd-fact"><dt>应改日期</dt><dd class="v-due mute">—</dd></dl>' +
+        '</div>' +
+        '<div class="pwd-when">' +
+          '<input class="pwd-date" type="date" aria-label="上次修改日期">' +
+          '<button type="button" class="pwd-mark">记录本次修改</button>' +
+        '</div>' +
+      '</div>';
+
+    var rec = {
+      it: it,
+      card: card,
+      nameIn: card.querySelector('.pwd-name'),
+      seg: card.querySelectorAll('.pwd-seg button'),
+      del: card.querySelector('.pwd-del'),
+      dateIn: card.querySelector('.pwd-date'),
+      stEl: card.querySelector('.v-status'),
+      elapsedEl: card.querySelector('.v-elapsed'),
+      leftEl: card.querySelector('.v-left'),
+      dueEl: card.querySelector('.v-due')
+    };
+
+    rec.nameIn.value = it.name || '';
+    rec.nameIn.addEventListener('input', function () {
+      it.name = rec.nameIn.value;
+      schedulePwdSave();
+    });
+
+    Array.prototype.forEach.call(rec.seg, function (b) {
+      b.addEventListener('click', function () {
+        it.cycle = b.dataset.c === 'q' ? 'q' : 'm';
+        updatePwdItem(rec);
+        recomputePwd();
+      });
+    });
+
+    rec.dateIn.addEventListener('change', function () {
+      it.last = rec.dateIn.value || '';
+      updatePwdItem(rec);
+      recomputePwd();
+    });
+
+    card.querySelector('.pwd-mark').addEventListener('click', function () {
+      markPwdChanged(rec);
+    });
+
+    var armed = false, timer = null;
+    rec.del.addEventListener('click', function () {
+      if (!armed) {
+        armed = true;
+        rec.del.textContent = '确认删除';
+        rec.del.classList.add('arming');
+        timer = setTimeout(function () {
+          armed = false;
+          rec.del.textContent = '删除';
+          rec.del.classList.remove('arming');
+        }, 3000);
+        return;
+      }
+      clearTimeout(timer);
+      removePwdItem(rec);
+    });
+
+    pwdRecs.push(rec);
+    updatePwdItem(rec);
+    return card;
+  }
+
+  function updatePwdItem(rec) {
+    var it = rec.it, st = pwdStatus(it);
+    Array.prototype.forEach.call(rec.seg, function (b) {
+      b.classList.toggle('on', (b.dataset.c === 'q' ? 'q' : 'm') === it.cycle);
+    });
+    if (rec.dateIn.value !== (it.last || '')) rec.dateIn.value = it.last || '';
+
+    rec.card.classList.toggle('soon', st.state === 'soon');
+    rec.card.classList.toggle('over', st.state === 'over');
+
+    function set(el, text, cls) {
+      el.textContent = text;
+      el.className = el.className.split(' ') // 保留 v-* 标记类
+        .filter(function (c) { return /^v-/.test(c); }).join(' ') + ' ' + cls;
+    }
+
+    if (st.state === 'empty') {
+      set(rec.stEl, '未记录', 'mute');
+      set(rec.elapsedEl, '—', 'mute');
+      set(rec.leftEl, '—', 'mute');
+      set(rec.dueEl, '—', 'mute');
+      return;
+    }
+
+    set(rec.elapsedEl, st.elapsed + ' 天', 'big');
+    set(rec.dueEl, fmtDay(st.due), 'big');
+
+    if (st.state === 'over') {
+      set(rec.stEl, '已超期 ' + (-st.left) + ' 天', 'over');
+      set(rec.leftEl, '超期 ' + (-st.left) + ' 天', 'over');
+    } else if (st.state === 'soon') {
+      set(rec.stEl, st.left === 0 ? '今天到期' : '还有 ' + st.left + ' 天', 'soon');
+      set(rec.leftEl, st.left + ' 天', 'soon');
+    } else {
+      set(rec.stEl, '正常', 'ok');
+      set(rec.leftEl, st.left + ' 天', 'ok');
+    }
+  }
+
+  function recomputePwd() {
+    var due = 0;
+    pwdRecs.forEach(function (rec) {
+      updatePwdItem(rec);
+      var st = pwdStatus(rec.it);
+      if (st.state === 'soon' || st.state === 'over') due++;
+    });
+    pwdDueEl.textContent = String(due);
+    pwdDueEl.classList.toggle('clear', due === 0);
+    pwdEmptyEl.hidden = pwdRecs.length > 0;
+    schedulePwdSave();
+  }
+
+  function addPwdItem(data) {
+    var it = {
+      name: data && data.name ? data.name : '',
+      cycle: data && data.cycle === 'q' ? 'q' : 'm',
+      last: data && data.last ? data.last : ''
+    };
+    pwdItems.push(it);
+    pwdListEl.appendChild(buildPwdItem(it));
+    recomputePwd();
+    return it;
+  }
+
+  function removePwdItem(rec) {
+    var i = pwdItems.indexOf(rec.it);
+    if (i > -1) pwdItems.splice(i, 1);
+    var j = pwdRecs.indexOf(rec);
+    if (j > -1) pwdRecs.splice(j, 1);
+    if (rec.card.parentNode) rec.card.parentNode.removeChild(rec.card);
+    recomputePwd();
+    toast('已删除「' + (rec.it.name || '未命名密码') + '」');
+  }
+
+  function markPwdChanged(rec) {
+    var today = todayStr();
+    if (rec.it.last === today) {
+      toast('今天已经记录过这次修改');
+      return;
+    }
+    var prev = rec.it.last || '';
+    var gap = prev ? dayDiff(parseDay(prev), parseDay(today)) : null;
+    rec.it.last = today;
+    pwdHist.push({
+      name: rec.it.name || '未命名密码',
+      cycle: rec.it.cycle,
+      date: today,
+      prev: prev,
+      gap: gap
+    });
+    savePwdState();
+    recomputePwd();
+    renderPwdHist();
+    toast('已记录本次修改：' + today);
+  }
+
+  function renderPwdHist() {
+    if (!pwdHist.length) {
+      pwdHistEl.innerHTML = '<p class="pwd-hempty">还没有记录。在上面的密码项里点「记录本次修改」，这里会按时间追加一行。</p>';
+    } else {
+      pwdHistEl.innerHTML = pwdHist.map(function (h) {
+        var gap = h.gap === null || h.gap === undefined ? '首次记录' : '距上次 ' + h.gap + ' 天';
+        return '<div class="pwd-hrow">' +
+          '<span class="d">' + h.date + '</span>' +
+          '<span class="n">' + (h.name || '未命名密码') + '</span>' +
+          '<span class="c">' + cycleLabel(h.cycle) + '</span>' +
+          '<span class="g">' + gap + '</span>' +
+        '</div>';
+      }).join('');
+    }
+    pwdHistEl.scrollTop = pwdHistEl.scrollHeight;
+    pwdHistCountEl.textContent = '共 ' + pwdHist.length + ' 条';
+  }
+
+  function savePwdState() {
+    var ok = storeSet(PWD_KEY, {
+      v: 1,
+      items: pwdItems.map(function (it) { return { name: it.name, cycle: it.cycle, last: it.last }; }),
+      hist: pwdHist
+    });
+    if (ok) {
+      var d = new Date();
+      pwdSavedEl.textContent = '已自动保存 ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+    } else {
+      pwdSavedEl.textContent = '当前浏览器不支持本地保存';
+    }
+  }
+
+  var pwdSaveTimer = null;
+  function schedulePwdSave() {
+    if (!STORE_OK) {
+      pwdSavedEl.textContent = '当前浏览器不支持本地保存';
+      return;
+    }
+    clearTimeout(pwdSaveTimer);
+    pwdSaveTimer = setTimeout(savePwdState, 400);
+  }
+
+  function initPwd() {
+    var st = storeGet(PWD_KEY);
+    if (st) {
+      pwdHist = (st.hist || []).map(function (h) {
+        return { name: h.name, cycle: h.cycle === 'q' ? 'q' : 'm', date: h.date, prev: h.prev, gap: (h.gap === null || h.gap === undefined) ? null : h.gap };
+      });
+      (st.items || []).forEach(function (data) { addPwdItem(data); });
+    }
+    renderPwdHist();
+    recomputePwd();
+  }
+
+  document.getElementById('pwd-add').addEventListener('click', function () {
+    var it = addPwdItem(null);
+    var rec = pwdRecs[pwdRecs.length - 1];
+    if (rec) rec.nameIn.focus();
+    toast('新增一项，填写名称并选择周期');
+  });
+
+  var pwdClearBtn = document.getElementById('pwd-clear-hist');
+  var pwdClearArmed = false, pwdClearTimer = null;
+  function resetPwdClear() {
+    pwdClearArmed = false;
+    pwdClearBtn.textContent = '清空记录';
+    pwdClearBtn.classList.remove('arming');
+  }
+  pwdClearBtn.addEventListener('click', function () {
+    if (!pwdHist.length) { toast('还没有记录可清空'); return; }
+    if (!pwdClearArmed) {
+      pwdClearArmed = true;
+      pwdClearBtn.textContent = '确认清空记录';
+      pwdClearBtn.classList.add('arming');
+      pwdClearTimer = setTimeout(resetPwdClear, 3000);
+      return;
+    }
+    clearTimeout(pwdClearTimer);
+    resetPwdClear();
+    pwdHist = [];
+    savePwdState();
+    renderPwdHist();
+    toast('修改记录已清空');
+  });
+
+  /* ================= 转换类型切换 ================= */
+  var modeBtns = document.querySelectorAll('#view-tool .tool-mode button');
+  var paneMoney = document.getElementById('pane-money');
+  var paneCN = document.getElementById('pane-cn');
+  var paneDate = document.getElementById('pane-date');
+  var inputDate = document.getElementById('input-date');
+
+  modeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var m = b.dataset.mode;
+      modeBtns.forEach(function (x) {
+        x.setAttribute('aria-selected', String(x.dataset.mode === m));
+      });
+      paneMoney.hidden = m !== 'money';
+      paneCN.hidden = m !== 'cn';
+      paneDate.hidden = m !== 'date';
+      if (m === 'money') renderMoney();
+      else if (m === 'cn') renderCN();
+      else renderDateCN();
+    });
+  });
+
+  /* ================= 输入与按钮 ================= */
+  inputMoney.addEventListener('input', renderMoney);
+  inputCN.addEventListener('input', renderCN);
+  inputDate.addEventListener('input', renderDateCN);
+
+  document.querySelectorAll('.chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var el = document.getElementById(c.dataset.target);
+      if (!el) return;
+      el.value = c.dataset.today ? dateStrOf(new Date()) : c.dataset.v;
+      el.focus();
+      if (el === inputMoney) renderMoney();
+      else if (el === inputCN) renderCN();
+      else renderDateCN();
+    });
+  });
+
+  function copyText(text) {
+    if (!text || text === '—') { toast('还没有可复制的内容'); return; }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '0';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      toast('已复制');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast('已复制'); }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var t = document.getElementById(btn.dataset.copy);
+      copyText(t ? t.textContent : '');
+    });
+  });
+
+  /* ================= 大额审批 ================= */
+  var bigFieldsEl = document.getElementById('big-fields');
+  var bigApplyEl = document.getElementById('big-apply-date');
+  var bigPayEl = document.getElementById('big-pay-date');
+  var bigInputs = {};
+  var bigData = {};
+  var bigType = '';
+  var bigOpts = document.querySelectorAll('#big-accttype .big-opt');
+
+  var BIG_FIELDS = [
+    { k: 'acctName', label: '支付账户名称', ph: '如 煤老板' },
+    { k: 'acctNo', label: '支付账号', ph: '6217788304900188888' , chips: ['621778836495'] },
+    { k: 'purpose', label: '资金用途', ph: '购农资', chips: ['购农资', '购粮食', '发工资', '彩礼', '装修'] },
+    { k: 'amount', label: '金额', ph: '10000.00' , chips: ['50000', '100000', '200000'] },
+    { k: 'person', label: '办理人姓名', ph: '煤老板' },
+    { k: 'personId', label: '办理人证件号', ph: '342222199908088888' },
+    { k: 'payee', label: '收款人名称', ph: '收款单位或个人' },
+    { k: 'payeeNo', label: '收款账号', ph: '' ,chips: ['621778836495'] },
+    { k: 'bank', label: '开户行', ph: '如 中国工商银行XX支行' ,chips: ['中国工商银行','中国农业银行','中国银行','邮政储蓄银行'] }
+  ];
+
+  function bigOut(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val || '';
+  }
+
+  function bigCents() {
+    var s = String(bigData.amount || '').replace(/[¥￥,\s]/g, '');
+    if (!s || !/^\d+(\.\d{0,2})?$/.test(s)) return null;
+    return Math.round(parseFloat(s) * 100);
+  }
+
+  function syncBig() {
+    bigOut('big-acct-name', bigData.acctName);
+    bigOut('big-acct-no', bigData.acctNo);
+    bigOut('big-purpose', bigData.purpose);
+    bigOut('big-person', bigData.person);
+    bigOut('big-person-id', bigData.personId);
+    bigOut('big-payee', bigData.payee);
+    bigOut('big-payee-no', bigData.payeeNo);
+    bigOut('big-bank', bigData.bank);
+    var c = bigCents();
+    bigOut('big-upper', c === null ? '' : upperCents(c));
+    bigOut('big-lower', c === null ? '' : fmtCents(c));
+  }
+
+  function setBigType() {
+    Array.prototype.forEach.call(bigOpts, function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.opt === bigType));
+    });
+  }
+
+  var bigApplyIso = '';
+  var bigPayIso = '';
+
+  /* 日期支持 2026-11-10 / 20261110 / 2026年11月10日 三种写法，统一显示为「2026年11月10日」 */
+  function bigDateParse(raw) {
+    var s = String(raw == null ? '' : raw).replace(/\s/g, '');
+    if (!s) return null;
+    var m = s.match(/^(\d{4})[年\-\.\/]?(\d{1,2})[月\-\.\/]?(\d{1,2})[日号]?$/);
+    if (!m) return null;
+    var y = +m[1], mo = +m[2], d = +m[3];
+    if (mo < 1 || mo > 12) return null;
+    var dim = new Date(y, mo, 0).getDate();
+    if (d < 1 || d > dim) return null;
+    return y + '-' + pad2(mo) + '-' + pad2(d);
+  }
+
+  function bigDateFmt(iso) {
+    var m = String(iso == null ? '' : iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return String(iso == null ? '' : iso);
+    return (+m[1]) + '年' + (+m[2]) + '月' + (+m[3]) + '日';
+  }
+
+  function initBig() {
+    BIG_FIELDS.forEach(function (f) {
+      var lab = document.createElement('label');
+      lab.className = 'big-field';
+
+      var keyEl = document.createElement('span');
+      keyEl.className = 'big-field-key';
+      keyEl.textContent = f.label;
+      lab.appendChild(keyEl);
+
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.autocomplete = 'off';
+      inp.spellcheck = false;
+      inp.placeholder = f.ph || '';
+      inp.setAttribute('aria-label', f.label);
+      if (f.k === 'amount') inp.inputMode = 'decimal';
+      else if (f.k === 'acctNo' || f.k === 'payeeNo' || f.k === 'personId') inp.inputMode = 'numeric';
+      inp.addEventListener('input', function () {
+        bigData[f.k] = inp.value;
+        syncBig();
+      });
+      lab.appendChild(inp);
+
+      if (f.chips) {
+        var box = document.createElement('span');
+        box.className = 'big-chips';
+        f.chips.forEach(function (c) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'chip';
+          b.textContent = c;
+          b.addEventListener('click', function () {
+            inp.value = c;
+            bigData[f.k] = c;
+            syncBig();
+          });
+          box.appendChild(b);
+        });
+        lab.appendChild(box);
+      }
+
+      bigInputs[f.k] = inp;
+      bigFieldsEl.appendChild(lab);
+    });
+
+    var today = todayStr();
+    bigType = '';
+    bigApplyIso = today;
+    bigPayIso = today;
+    bigApplyEl.value = bigDateFmt(bigApplyIso);
+    bigPayEl.value = bigDateFmt(bigPayIso);
+    bigOut('big-approve-date', bigDateFmt(today));
+    setBigType();
+    syncBig();
+
+    Array.prototype.forEach.call(bigOpts, function (b) {
+      b.addEventListener('click', function () {
+        bigType = (bigType === b.dataset.opt) ? '' : b.dataset.opt;
+        setBigType();
+      });
+    });
+
+    function bindBigDate(el, which) {
+      el.addEventListener('input', function () {
+        var iso = bigDateParse(el.value);
+        if (iso) {
+          if (which === 'apply') bigApplyIso = iso; else bigPayIso = iso;
+        }
+      });
+      el.addEventListener('blur', function () {
+        var iso = bigDateParse(el.value);
+        if (iso) {
+          if (which === 'apply') bigApplyIso = iso; else bigPayIso = iso;
+          el.value = bigDateFmt(iso);
+        } else if (el.value.trim() === '') {
+          if (which === 'apply') bigApplyIso = ''; else bigPayIso = '';
+          el.value = '';
+        } else {
+          var back = which === 'apply' ? bigApplyIso : bigPayIso;
+          el.value = bigDateFmt(back);
+          toast('日期无法识别，请按 YYYY年MM月DD日 填写');
+        }
+      });
+    }
+    bindBigDate(bigApplyEl, 'apply');
+    bindBigDate(bigPayEl, 'pay');
+
+    document.getElementById('big-print').addEventListener('click', function () {
+      window.print();
+    });
+
+    var clearBtn = document.getElementById('big-clear');
+    var clearArmed = false, clearTimer = null;
+    function resetClear() {
+      clearArmed = false;
+      clearBtn.textContent = '清空表单';
+      clearBtn.classList.remove('arming');
+    }
+    clearBtn.addEventListener('click', function () {
+      if (!clearArmed) {
+        clearArmed = true;
+        clearBtn.textContent = '确认清空';
+        clearBtn.classList.add('arming');
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      clearTimeout(clearTimer);
+      resetClear();
+      bigData = {};
+      bigType = '';
+      setBigType();
+      BIG_FIELDS.forEach(function (f) { if (bigInputs[f.k]) bigInputs[f.k].value = ''; });
+      bigApplyIso = todayStr();
+      bigPayIso = todayStr();
+      bigApplyEl.value = bigDateFmt(bigApplyIso);
+      bigPayEl.value = bigDateFmt(bigPayIso);
+      syncBig();
+      toast('表单已清空');
+    });
+  }
+
+  /* ================= 自定义网址 ================= */
+  var CL_KEY = 'ume-custom-links-v1';
+  var clState = (function () {
+    var st = storeGet(CL_KEY);
+    if (st && st.items && typeof st.items.length === 'number') return st;
+    return { v: 1, items: [] };
+  })();
+
+  function clSave() { storeSet(CL_KEY, clState); }
+
+  function clFixUrl(raw) {
+    var v = String(raw || '').replace(/\s+/g, '').trim();
+    if (!v) return '';
+    if (!/^https?:\/\//i.test(v)) v = 'http://' + v;
+    return v;
+  }
+
+  function clFind(url) {
+    var hit = null;
+    clState.items.forEach(function (it) { if (!hit && it.url === url) hit = it; });
+    return hit;
+  }
+
+  function renderCustomLinks() {
+    var list = document.getElementById('cl-list');
+    if (!list) return;
+    if (!clState.items.length) {
+      list.innerHTML = '<p class="cl-empty">还没有自定义网址，点右上角「新增」即可添加。</p>';
+      return;
+    }
+    var html = '';
+    clState.items.forEach(function (it) {
+      html += '<div class="cl-row">'
+        + '<a class="card-link" href="' + escXml(it.url) + '" target="_blank">' + escXml(it.name) + '</a>'
+        + '<button type="button" class="cl-del" data-del="' + escXml(it.id) + '" aria-label="删除">删除</button>'
+        + '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function addCustomLink() {
+    var nameIn = document.getElementById('cl-name');
+    var urlIn = document.getElementById('cl-url');
+    if (!nameIn || !urlIn) return;
+    var name = String(nameIn.value || '').replace(/\s+/g, ' ').trim();
+    var url = clFixUrl(urlIn.value);
+    if (!name) { toast('请先填写名称'); nameIn.focus(); return; }
+    if (!url) { toast('请填写网址'); urlIn.focus(); return; }
+    if (!/^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(url)) { toast('网址格式不对，示例：https://example.com'); urlIn.focus(); return; }
+    if (clFind(url)) { toast('这个网址已经在列表里了'); return; }
+    clState.items.push({ id: 'c' + Date.now() + Math.floor(Math.random() * 1000), name: name, url: url });
+    clSave();
+    renderCustomLinks();
+    nameIn.value = '';
+    urlIn.value = '';
+    toast('已添加：' + name);
+    clToggle(false);
+  }
+
+  function clToggle(open) {
+    var form = document.getElementById('cl-form');
+    var tg = document.getElementById('cl-toggle');
+    if (!form || !tg) return;
+    var show = (typeof open === 'boolean') ? open : form.hidden;
+    form.hidden = !show;
+    tg.textContent = show ? '收起' : '新增';
+    tg.setAttribute('aria-expanded', show ? 'true' : 'false');
+    if (show) {
+      var nameIn = document.getElementById('cl-name');
+      if (nameIn) setTimeout(function () { nameIn.focus(); }, 60);
+    }
+  }
+
+  function initCustomLinks() {
+    renderCustomLinks();
+    var tg = document.getElementById('cl-toggle');
+    if (tg) tg.addEventListener('click', function () { clToggle(); });
+    var btn = document.getElementById('cl-add');
+    if (btn) btn.addEventListener('click', addCustomLink);
+    ['cl-name', 'cl-url'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', function (e) { if (e.key === 'Enter') addCustomLink(); });
+    });
+    var list = document.getElementById('cl-list');
+    if (list) {
+      list.addEventListener('click', function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var del = t.closest('.cl-del');
+        if (!del) return;
+        e.preventDefault();
+        var id = del.dataset.del;
+        var name = '';
+        clState.items = clState.items.filter(function (it) {
+          if (it.id === id) { name = it.name; return false; }
+          return true;
+        });
+        clSave();
+        renderCustomLinks();
+        if (name) toast('已删除：' + name);
+      });
+    }
+  }
+
+  /* ================= 超级书签（书签小工具） ================= */
+  var BM_ITEMS = [
+    {
+      name: '🔓 解锁网页限制',
+      chip: '🔓解锁限制',
+      desc: '解锁当前网站的复制、剪切、选择与右键菜单限制，并阻止网页在复制时自动添加的尾巴文字。',
+      code: 'javascript:(function(){'
+        + 'var css="*{-webkit-user-select:text!important;-moz-user-select:text!important;-ms-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important}";'
+        + 'var st=document.createElement("style");st.textContent=css;(document.head||document.documentElement).appendChild(st);'
+        + 'document.oncontextmenu=null;document.onselectstart=null;document.oncopy=null;document.oncut=null;document.onpaste=null;document.onmousedown=null;document.onmouseup=null;'
+        + '["contextmenu","selectstart","copy","cut","paste","dragstart"].forEach(function(t){'
+        + 'document.addEventListener(t,function(e){e.stopPropagation();},true);'
+        + 'window.addEventListener(t,function(e){e.stopPropagation();},true);'
+        + '});'
+        + 'alert("已解锁本页的复制与右键限制，可直接选中、复制、右键了");'
+        + '})()'
+    },
+    {
+      name: '🔑 显示星号密码',
+      chip: '🔑显示密码',
+      desc: '把当前网页里所有密码框的圆点变成明文，方便核对已保存或自动填充的密码，适用于绝大部分网站。',
+      code: 'javascript:(function(){'
+        + 'var n=0,all=document.querySelectorAll("input");'
+        + 'for(var i=0;i<all.length;i++){'
+        + 'var el=all[i];if(el.type&&el.type.toLowerCase()==="password"){el.type="text";n++;}'
+        + '}'
+        + 'alert(n?("已显示 "+n+" 个密码框的内容"):"本页没有找到密码框（可能在其他网站或内嵌页面中）");'
+        + '})()'
+    },
+    {
+      name: '✍️ 网页自由编辑',
+      chip: '✍️自由编辑',
+      desc: '把当前网页变成可编辑状态，可以任意增删、修改页面上的文字与图片内容，再次点击同一个书签即退出编辑状态。',
+      code: 'javascript:(function(){'
+        + 'var b=document.body;if(!b){alert("本页不支持编辑");return;}'
+        + 'if(b.getAttribute("contenteditable")==="true"){b.removeAttribute("contenteditable");alert("已退出编辑状态");}'
+        + 'else{b.setAttribute("contenteditable","true");b.focus();alert("已进入编辑状态，可直接修改网页内容；再次点击本书签可退出");}'
+        + '})()'
+    },
+    {
+      name: '📏 网页标注',
+      chip: '📏网页标注',
+      desc: '按住 Alt（Mac 为 Option）键，鼠标指着页面中任意元素，即显示该元素的宽高尺寸以及它到页面左边缘、上边缘的距离；松开 Alt 即隐藏。',
+      code: 'javascript:(function(){'
+        + 'if(window.__umeRulerOff){window.__umeRulerOff();window.__umeRulerOff=null;alert("已关闭网页标注");return;}'
+        + 'var box=document.createElement("div"),lab=document.createElement("div");'
+        + 'box.style.cssText="position:fixed;z-index:2147483647;pointer-events:none;border:1px dashed #D52018;background:rgba(213,32,24,.07);display:none";'
+        + 'lab.style.cssText="position:fixed;z-index:2147483647;pointer-events:none;background:#D52018;color:#fff;font:12px/1.7 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;padding:2px 7px;border-radius:3px;white-space:nowrap;display:none";'
+        + 'document.documentElement.appendChild(box);document.documentElement.appendChild(lab);'
+        + 'function onMove(e){'
+        + 'if(!e.altKey){box.style.display="none";lab.style.display="none";return;}'
+        + 'var t=document.elementFromPoint(e.clientX,e.clientY);'
+        + 'if(!t||t===box||t===lab)return;'
+        + 'var r=t.getBoundingClientRect();'
+        + 'box.style.display="block";lab.style.display="block";'
+        + 'box.style.left=r.left+"px";box.style.top=r.top+"px";box.style.width=r.width+"px";box.style.height=r.height+"px";'
+        + 'lab.textContent=Math.round(r.width)+" × "+Math.round(r.height)+"  距左 "+Math.round(r.left)+" · 距上 "+Math.round(r.top);'
+        + 'var ty=r.top-26;if(ty<2)ty=r.top+r.height+6;'
+        + 'lab.style.left=Math.max(2,Math.min(r.left,window.innerWidth-250))+"px";lab.style.top=ty+"px";'
+        + '}'
+        + 'window.addEventListener("mousemove",onMove,true);'
+        + 'window.__umeRulerOff=function(){window.removeEventListener("mousemove",onMove,true);box.parentNode&&box.parentNode.removeChild(box);lab.parentNode&&lab.parentNode.removeChild(lab);};'
+        + 'alert("已开启网页标注：按住 Alt 键并把鼠标移到要测量的元素上，再次点击本书签可关闭");'
+        + '})()'
+    },
+  ];
+
+  function initBookmarks() {
+    var list = document.getElementById('bm-list');
+    if (!list) return;
+    var html = '';
+    BM_ITEMS.forEach(function (it, i) {
+      var name = escXml(it.chip || it.name);
+      html += '<div class="bm-item">'
+        + '<div class="bm-info">'
+        + '<p class="bm-name">' + escXml(it.name) + '</p>'
+        + '<p class="bm-desc">' + escXml(it.desc) + '</p>'
+        + '</div>'
+        + '<div class="bm-actions">'
+        + '<div class="bm-drag">'
+        + '<a class="bm-chip" data-bm="' + i + '" title="' + name + '" aria-label="把树叶拖到浏览器书签栏，书签名：' + name + '" href="' + escXml(it.code) + '"><span class="bm-leaf" aria-hidden="true"></span><span class="sr-only">' + name + '</span></a>'
+        + '<span class="bm-drag-tip">把树叶拖到书签栏</span>'
+        + '</div>'
+        + '<button type="button" class="bm-copy" data-cp="' + i + '">复制代码</button>'
+        + '</div>'
+        + '</div>';
+    });
+    list.innerHTML = html;
+
+    /* 书签名来自浏览器自带的「链接地址 + 链接文字」拖拽数据。不要在这里
+       setData('text/uri-list', ...)：它会覆盖并清空这份数据的标题部分，
+       拖到书签栏后书签就没有名字了。 */
+    list.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      var chip = t.closest('.bm-chip');
+      if (chip) { e.preventDefault(); toast('请按住并拖动这个按钮到浏览器书签栏，不要直接点击'); return; }
+      var cp = t.closest('.bm-copy');
+      if (cp) {
+        var idx = Number(cp.dataset.cp);
+        var item = BM_ITEMS[idx];
+        if (!item) return;
+        copyText(item.code);
+      }
+    });
+  }
+
+  /* ================= 凭证大写日期 ================= */
+  var CN_DIGITS = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+
+  function cnDigit(n) { return CN_DIGITS[n]; }
+
+  function cnTens(n) {
+    if (n < 10) return cnDigit(n);
+    if (n === 10) return '壹拾';
+    var t = Math.floor(n / 10), u = n % 10;
+    return cnDigit(t) + '拾' + (u ? cnDigit(u) : '');
+  }
+
+  /* 月份：壹、贰、壹拾 前加“零”（零壹月、零贰月、零壹拾月），叁至玖月不加 */
+  function cnMonth(n) {
+    return (n === 1 || n === 2 || n === 10) ? '零' + cnTens(n) : cnTens(n);
+  }
+
+  /* 日期：壹至玖、壹拾、贰拾、叁拾 前加“零”，拾壹至拾玖、贰拾壹至贰拾玖、叁拾壹 不加 */
+  function cnDay(n) {
+    return (n < 10 || n === 10 || n === 20 || n === 30) ? '零' + cnTens(n) : cnTens(n);
+  }
+
+  function cnYear(y) {
+    return String(y).split('').map(function (c) { return CN_DIGITS[Number(c)]; }).join('');
+  }
+
+  function dateStrOf(d) {
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+
+  function parseDateStr(raw) {
+    var t = String(raw || '').replace(/\s+/g, '');
+    if (!t) return null;
+    var m = /^(\d{4})[-/.年](\d{1,2})[-/.月](\d{1,2})[日号]?$/.exec(t);
+    if (!m) m = /^(\d{4})(\d{2})(\d{2})$/.exec(t);
+    if (!m) return null;
+    var y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]);
+    if (y < 1900 || y > 2999 || mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+    var dt = new Date(y, mo - 1, d);
+    if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+    return { y: y, m: mo, d: d };
+  }
+
+  function renderDateCN() {
+    var upper = document.getElementById('date-upper');
+    var plain = document.getElementById('date-plain');
+    var parts = document.getElementById('date-parts');
+    var err = document.getElementById('error-date');
+    if (!upper) return;
+    var v = parseDateStr(inputDate.value);
+    if (!v) {
+      upper.textContent = '—';
+      if (plain) plain.textContent = '—';
+      if (parts) parts.textContent = '—';
+      if (err) err.textContent = inputDate.value ? '日期格式认不出来，请按 2026-02-11 或 2026年2月11日 填写' : '';
+      return;
+    }
+    if (err) err.textContent = '';
+    var yCN = cnYear(v.y), mCN = cnMonth(v.m), dCN = cnDay(v.d);
+    upper.textContent = yCN + '年' + mCN + '月' + dCN + '日';
+    if (plain) plain.textContent = dateStrOf(new Date(v.y, v.m - 1, v.d));
+    if (parts) parts.textContent = yCN + ' / ' + mCN + ' / ' + dCN;
+  }
+
+  /* ================= 常用网址（按点击次数实时排序） ================= */
+  var HOT_KEY = 'ume-hot-v1';
+  var HOT_TOP = 8;
+  var hotState = (function () {
+    var st = storeGet(HOT_KEY);
+    if (st && st.c && typeof st.c === 'object') return st;
+    return { v: 1, c: {} };
+  })();
+
+  function navLinkIndex() {
+    var out = {};
+    var links = document.querySelectorAll('#view-nav a.card-link');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      out[a.href] = { name: (a.textContent || '').replace(/\s+/g, ' ').trim() };
+    }
+    return out;
+  }
+
+  function hotBump(href, name) {
+    if (!href) return;
+    var it = hotState.c[href];
+    if (!it) { it = { n: 0, t: '' }; hotState.c[href] = it; }
+    it.n = (it.n || 0) + 1;
+    if (name) it.t = name;
+    storeSet(HOT_KEY, hotState);
+    renderHot();
+  }
+
+  function renderHot() {
+    var list = document.getElementById('hot-list');
+    if (!list) return;
+    /* 每次渲染都重新扫描导航页里的链接，自定义网址新增后立即可参与排序 */
+    var LIVE_INDEX = navLinkIndex();
+    var rows = [];
+    for (var k in hotState.c) {
+      if (!Object.prototype.hasOwnProperty.call(hotState.c, k)) continue;
+      var it = hotState.c[k];
+      if (!it || !it.n) continue;
+      var nm = (LIVE_INDEX[k] && LIVE_INDEX[k].name) || it.t || k;
+      rows.push({ href: k, name: nm, n: it.n });
+    }
+    rows.sort(function (a, b) { return b.n - a.n || a.name.localeCompare(b.name, 'zh-Hans-CN'); });
+    var top = rows.slice(0, HOT_TOP);
+    var hotCard = document.getElementById('hot-card');
+    if (hotCard) hotCard.classList.toggle('is-empty', !top.length);
+    if (!top.length) {
+      list.innerHTML = '<p class="hot-empty"><span class="hot-empty-icon" aria-hidden="true"></span>点击任意网址后，这里会自动记录常用入口。</p>';
+      return;
+    }
+    var html = '';
+    top.forEach(function (r, i) {
+      html += '<a class="hot-link" href="' + escXml(r.href) + '" target="_blank">' +
+        '<span class="hot-rank' + (i < 3 ? ' top' : '') + '">' + (i + 1) + '</span>' +
+        '<span class="hot-name">' + escXml(r.name) + '</span>' +
+        '<span class="hot-count">' + r.n + ' 次</span></a>';
+    });
+    list.innerHTML = html;
+  }
+
+  var hotClearArm = 0;
+
+  function initHot() {
+    renderHot();
+    var btnC = document.getElementById('hot-clear');
+    if (btnC) {
+      btnC.addEventListener('click', function () {
+        if (hotClearArm) {
+          hotClearArm = 0;
+          hotState = { v: 1, c: {} };
+          storeSet(HOT_KEY, hotState);
+          renderHot();
+          toast('已清空点击记录');
+          return;
+        }
+        hotClearArm = 1;
+        toast('再点一次「清空记录」确认清空');
+        setTimeout(function () { hotClearArm = 0; }, 4000);
+      });
+    }
+    var nav = document.getElementById('view-nav');
+    if (!nav) return;
+    nav.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a.card-link, a.hot-link') : null;
+      if (!a) return;
+      var nm = a.querySelector('.hot-name');
+      var name = (nm ? nm.textContent : a.textContent || '').replace(/\s+/g, ' ').trim();
+      hotBump(a.href, name);
+    });
+  }
+
+  /* ================= 数据导出 / 导入 ================= */
+  var DATA_KEYS = [
+    { k: 'ume-cash-v1', n: '配钞工具' },
+    { k: 'ume-pwd-v1', n: '密码修改' },
+    { k: 'ume-hot-v1', n: '常用网址点击' },
+    { k: 'ume-custom-links-v1', n: '自定义网址' },
+    { k: 'ume-tab-order-v1', n: '页签顺序' },
+    { k: 'ume-nav-order-v1', n: '区块顺序' }
+  ];
+  var importArm = 0;
+  var pendingImport = null;
+
+  function exportData() {
+    if (!STORE_OK) { toast('本机不支持本地存储，无法导出'); return; }
+    var data = {};
+    var n = 0;
+    DATA_KEYS.forEach(function (it) {
+      var raw = localStorage.getItem(it.k);
+      if (raw !== null && raw !== '') { data[it.k] = raw; n++; }
+    });
+    var pack = {
+      app: 'ume-nav-data',
+      ver: 1,
+      exportedAt: new Date().toISOString(),
+      data: data
+    };
+    var d = new Date();
+    var name = '常用网址数据_' + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) + '.json';
+    var blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      if (a.parentNode) a.parentNode.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 1500);
+    toast('已导出 ' + n + ' 项数据：' + name);
+  }
+
+  function applyImport(pack) {
+    var n = 0;
+    DATA_KEYS.forEach(function (it) {
+      var v = pack.data[it.k];
+      if (typeof v === 'string' && v) {
+        try { localStorage.setItem(it.k, v); n++; } catch (e) {}
+      }
+    });
+    if (!n) { toast('写入失败，浏览器拒绝了本地存储'); return; }
+    toast('已导入 ' + n + ' 项数据，正在重新载入…');
+    setTimeout(function () { location.reload(); }, 900);
+  }
+
+  function readImportFile(file) {
+    if (!file) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var pack;
+      try { pack = JSON.parse(String(fr.result)); } catch (e) {
+        toast('文件不是有效的 JSON，导入已取消');
+        return;
+      }
+      if (!pack || typeof pack !== 'object' || !pack.data || typeof pack.data !== 'object') {
+        toast('文件格式不对，不是本页导出的数据文件');
+        return;
+      }
+      var hit = 0;
+      DATA_KEYS.forEach(function (it) {
+        if (typeof pack.data[it.k] === 'string') hit++;
+      });
+      if (!hit) { toast('文件里没有可导入的数据'); return; }
+      pendingImport = pack;
+      importArm = 1;
+      toast('检测到 ' + hit + ' 项数据，再点一次「导入数据」确认覆盖本机数据');
+      setTimeout(function () { importArm = 0; pendingImport = null; }, 6000);
+    };
+    fr.onerror = function () { toast('读取文件失败'); };
+    fr.readAsText(file, 'utf-8');
+  }
+
+  function initDataTools() {
+    var btnE = document.getElementById('data-export');
+    var btnI = document.getElementById('data-import');
+    var fileIn = document.getElementById('data-file');
+    if (!btnE || !btnI || !fileIn) return;
+    btnE.addEventListener('click', function () { exportData(); });
+    btnI.addEventListener('click', function () {
+      if (importArm && pendingImport) { applyImport(pendingImport); return; }
+      fileIn.value = '';
+      fileIn.click();
+    });
+    fileIn.addEventListener('change', function () {
+      readImportFile(fileIn.files && fileIn.files[0]);
+      fileIn.value = '';
+    });
+  }
+
+  /* ================= 界面增强：日期 / 回到顶部 / 页签键盘操作 ================= */
+  function motionBehavior() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'auto' : 'smooth';
+  }
+
+  function scrollViewTop(name) {
+    var v = document.getElementById('view-' + name);
+    if (!v || !tabsWrap) return;
+    var r = v.getBoundingClientRect();
+    if (r.top >= 24) return;
+    window.scrollTo({ top: Math.max(0, r.top + window.scrollY - 24), behavior: motionBehavior() });
+  }
+
+  function initUiExtras() {
+    var dateEl = document.getElementById('brand-date');
+    if (dateEl) {
+      var tick = function () {
+        var d = new Date();
+        var wk = '日一二三四五六'.charAt(d.getDay());
+        dateEl.textContent = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() +
+          '日 星期' + wk + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+      };
+      tick();
+      setInterval(tick, 30000);
+    }
+
+    var topBtn = document.getElementById('to-top');
+    if (topBtn) {
+      var syncTop = function () {
+        topBtn.classList.toggle('is-on', window.scrollY > 320);
+      };
+      window.addEventListener('scroll', syncTop, { passive: true });
+      syncTop();
+      topBtn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: motionBehavior() });
+      });
+    }
+
+    if (tabsWrap) {
+      tabsWrap.addEventListener('keydown', function (e) {
+        var k = e.key;
+        if (k !== 'ArrowLeft' && k !== 'ArrowRight' && k !== 'ArrowUp' && k !== 'ArrowDown' && k !== 'Home' && k !== 'End') return;
+        var list = Array.prototype.slice.call(tabsWrap.querySelectorAll('button'));
+        var i = list.indexOf(document.activeElement);
+        if (i < 0) return;
+        e.preventDefault();
+        var n = k === 'Home' ? 0
+          : k === 'End' ? list.length - 1
+          : (i + (k === 'ArrowRight' || k === 'ArrowDown' ? 1 : -1) + list.length) % list.length;
+        list[n].focus();
+        showView(list[n].dataset.view);
+        scrollViewTop(list[n].dataset.view);
+      });
+    }
+  }
+
+
+  /* ================= 贷款计算 ================= */
+  function initLoan() {
+    var view = document.getElementById('view-loan');
+    if (!view) return;
+    var amountEl = document.getElementById('loan-amount');
+    var monthsEl = document.getElementById('loan-months');
+    var rateEl = document.getElementById('loan-rate');
+    var payEl = document.getElementById('loan-pay');
+    var principalEl = document.getElementById('loan-principal');
+    var interestEl = document.getElementById('loan-interest');
+    var periodsEl = document.getElementById('loan-periods');
+    var basisWrap = document.getElementById('loan-basis');
+    var schedEl = document.getElementById('loan-schedule');
+    var modeBtns = view.querySelectorAll('[data-loanmode]');
+    var basisBtns = view.querySelectorAll('[data-loanbasis]');
+    var mode = 'flat';
+    var basis = 'month';
+
+    function num(el) {
+      var v = String(el.value).replace(/[\s,¥￥%万元]/g, '');
+      var n = parseFloat(v);
+      return isFinite(n) ? n : 0;
+    }
+
+    function r2(x) { return Math.round(x * 100) / 100; }
+
+    function money(n) {
+      var v = r2(n).toFixed(2).split('.');
+      v[0] = v[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return v.join('.');
+    }
+
+    function yuan(n) { return '¥' + money(n); }
+
+    function clear() {
+      payEl.textContent = '—';
+      principalEl.textContent = '—';
+      interestEl.textContent = '—';
+      periodsEl.textContent = '—';
+      basisWrap.hidden = mode !== 'io';
+      schedEl.innerHTML = '';
+    }
+
+    function render() {
+      basisWrap.hidden = mode !== 'io';
+
+      var principal = num(amountEl) * 10000;
+      var months = Math.floor(num(monthsEl));
+      var annual = num(rateEl);
+      var rate = annual / 1200;
+
+      if (!(principal > 0) || !(months > 0) || months > 600 || annual < 0) { clear(); return; }
+
+      var rows = [];
+      var interest = 0;
+      var i, prin, intr, bal, left, pay, body, perIntr, seg;
+
+      if (mode === 'io') {
+        var step = basis === 'quarter' ? 3 : 1;
+        var periods = Math.ceil(months / step);
+        bal = principal;
+        for (i = 1; i <= periods; i++) {
+          seg = Math.min(step, months - (i - 1) * step);
+          intr = r2(principal * rate * seg);
+          prin = i === periods ? principal : 0;
+          bal = r2(bal - prin);
+          rows.push([i, r2(prin + intr), prin, intr]);
+        }
+        interest = r2(principal * rate * months);
+      } else if (mode === 'flat') {
+        body = r2(principal / months);
+        perIntr = r2(principal * rate);
+        left = principal;
+        for (i = 1; i <= months; i++) {
+          prin = i === months ? left : body;
+          intr = perIntr;
+          left = r2(left - prin);
+          rows.push([i, r2(prin + intr), prin, intr]);
+        }
+        interest = r2(principal * rate * months);
+      } else if (mode === 'eq') {
+        var f = Math.pow(1 + rate, months);
+        pay = rate <= 0 ? principal / months : principal * rate * f / (f - 1);
+        bal = principal;
+        for (i = 1; i <= months; i++) {
+          if (i === months) {
+            prin = bal;
+            intr = r2(pay - prin);
+          } else {
+            intr = r2(bal * rate);
+            prin = r2(pay - intr);
+          }
+          bal = r2(bal - prin);
+          rows.push([i, i === months ? r2(prin + intr) : r2(pay), prin, intr]);
+        }
+        interest = r2(pay * months - principal);
+      } else {
+        body = r2(principal / months);
+        left = principal;
+        for (i = 1; i <= months; i++) {
+          prin = i === months ? left : body;
+          intr = r2(left * rate);
+          left = r2(left - prin);
+          rows.push([i, r2(prin + intr), prin, intr]);
+        }
+        interest = r2(principal * rate * (months + 1) / 2);
+      }
+
+      payEl.textContent = yuan(principal + interest);
+      principalEl.textContent = yuan(principal);
+      interestEl.textContent = yuan(interest);
+      periodsEl.textContent = months + ' 个月';
+
+      var html = '';
+      for (i = 0; i < rows.length; i++) {
+        var w = rows[i];
+        html += '<tr><td class="cash-name">' + w[0] + '</td>' +
+          '<td>' + money(w[1]) + '</td><td>' + money(w[2]) + '</td><td>' + money(w[3]) + '</td></tr>';
+      }
+      schedEl.innerHTML = html;
+    }
+
+    modeBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        mode = b.dataset.loanmode;
+        modeBtns.forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); });
+        render();
+      });
+    });
+
+    basisBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        basis = b.dataset.loanbasis;
+        basisBtns.forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); });
+        render();
+      });
+    });
+
+    [amountEl, monthsEl, rateEl].forEach(function (el) {
+      el.addEventListener('input', render);
+    });
+
+    render();
+  }
+
+  /* ================= 诉讼计算 ================= */
+  function initLit() {
+    var view = document.getElementById('view-lit');
+    if (!view) return;
+    var amountEl = document.getElementById('lit-amount');
+    var payEl = document.getElementById('lit-pay');
+    var acceptEl = document.getElementById('lit-accept');
+    var execEl = document.getElementById('lit-exec');
+    var preserveEl = document.getElementById('lit-preserve');
+    var halfEl = document.getElementById('lit-half');
+
+    function num(el) {
+      var v = String(el.value).replace(/[\s,¥￥元]/g, '');
+      var n = parseFloat(v);
+      return isFinite(n) ? n : 0;
+    }
+
+    function r2(x) { return Math.round(x * 100) / 100; }
+
+    function money(n) {
+      var v = r2(n).toFixed(2).split('.');
+      v[0] = v[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return v.join('.');
+    }
+
+    function yuan(n) { return '¥' + money(n); }
+
+    /* 案件受理费：按争议金额分段累计 */
+    function acceptFee(a) {
+      var bands = [
+        [10000, 0],
+        [100000, 0.025],
+        [200000, 0.02],
+        [500000, 0.015],
+        [1000000, 0.01],
+        [2000000, 0.009],
+        [5000000, 0.008],
+        [10000000, 0.007],
+        [20000000, 0.006],
+        [Infinity, 0.005]
+      ];
+      if (a <= 10000) return 50;
+      var fee = 50, prev = 10000, i, part;
+      for (i = 1; i < bands.length; i++) {
+        part = Math.min(a, bands[i][0]) - prev;
+        if (part <= 0) break;
+        fee += part * bands[i][1];
+        prev = bands[i][0];
+      }
+      return r2(fee);
+    }
+
+    /* 申请执行费 */
+    function execFee(a) {
+      if (a <= 10000) return 50;
+      var fee = 50, prev = 10000;
+      var bands = [[500000, 0.01], [5000000, 0.005], [10000000, 0.001], [Infinity, 0.0005]];
+      for (var i = 0; i < bands.length; i++) {
+        var part = Math.min(a, bands[i][0]) - prev;
+        if (part <= 0) break;
+        fee += part * bands[i][1];
+        prev = bands[i][0];
+      }
+      return r2(fee);
+    }
+
+    /* 申请保全费（每件最高 5000 元） */
+    function preserveFee(a) {
+      if (a <= 1000) return 30;
+      var fee = 30;
+      if (a <= 100000) fee += (a - 1000) * 0.01;
+      else fee += 99000 * 0.01 + (a - 100000) * 0.005;
+      return r2(Math.min(fee, 5000));
+    }
+
+    function clear() {
+      payEl.textContent = '—';
+      acceptEl.textContent = '—';
+      execEl.textContent = '—';
+      preserveEl.textContent = '—';
+      halfEl.textContent = '—';
+    }
+
+    function render() {
+      var amount = num(amountEl);
+      if (!(amount > 0)) { clear(); return; }
+
+      var accept = acceptFee(amount);
+      var exec = execFee(amount);
+      var preserve = preserveFee(amount);
+
+      payEl.textContent = yuan(accept + exec + preserve);
+      acceptEl.textContent = yuan(accept);
+      execEl.textContent = yuan(exec);
+      preserveEl.textContent = yuan(preserve);
+      halfEl.textContent = yuan(accept / 2);
+    }
+
+    amountEl.addEventListener('input', render);
+    render();
+  }
+
+  /* ================= 初始化 ================= */
+  restoreTabOrder();
+  initNavOrder();
+  renderMoney();
+  renderCN();
+  restoreCashState();
+  renderCash();
+  initPwd();
+  initBig();
+  initLoan();
+  initLit();
+  if (inputDate && !inputDate.value) inputDate.value = dateStrOf(new Date());
+  renderDateCN();
+  initDataTools();
+  initHot();
+  initCustomLinks();
+  initBookmarks();
+  initUiExtras();
+  if (location.hash === '#tool') showView('tool');
+  else if (location.hash === '#cash') showView('cash');
+  else if (location.hash === '#pwd') showView('pwd');
+  else if (location.hash === '#big') showView('big');
+  else if (location.hash === '#loan') showView('loan');
+  else if (location.hash === '#lit') showView('lit');
+  else if (location.hash === '#bm') showView('bm');
+})();
+</script>
+
+</body>
+</html>
